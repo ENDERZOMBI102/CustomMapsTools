@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "cmt",
+  "name": "Custom Maps Tools",
+  "description": "The ultimate customization mod",
+  "version": "1.0.0",
+  "authors": [
+	"ENDERZOMBI102"
+  ],
+  "contact": {
+	"homepage": "https://minecraft.curseforge.com/projects/cmt",
+	"sources": "https://github.com/ENDERZOMBI102/CustomMapsTools",
+	"issues": "https://github.com/ENDERZOMBI102/CustomMapsTools/issues"
+  },
+  "license": "Apache-2.0",
+  "icon": "icon.png",
+  "entrypoints": {
+	"main": [
+	  "com.enderzombi102.cmt.CustomMapsTools"
+	],
+	"modmenu": [
+	  "com.enderzombi102.cmt.config.ModMenu"
+	]
+  },
+  "depends": {
+	"fabric-command-api-v1": "*"
+  }
+}
