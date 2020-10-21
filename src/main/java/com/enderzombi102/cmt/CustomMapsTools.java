@@ -14,19 +14,20 @@ public class CustomMapsTools implements ModInitializer, ClientModInitializer, De
 
 	@Override
 	public void onInitialize() {
-		System.out.println("Hello Fabric World!");
+		LogHelper.info("setting up config page!");
 		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+
 	}
 
 
 	@Override
 	public void onInitializeClient() {
-		System.out.println("Hello Fabric Client World!");
+		LogHelper.info("Hello Fabric Client World!");
 	}
 
 	@Override
 	public void onInitializeServer() {
-		System.out.println("Hello Fabric Server World!");
+		LogHelper.info("Hello Fabric Server World!");
 	}
 }
