@@ -1,28 +1,39 @@
 {
-  "schemaVersion": 1,
-  "id": "cmt",
-  "name": "Custom Maps Tools",
-  "description": "The ultimate customization mod",
-  "version": "1.0.0",
-  "authors": [
-	"ENDERZOMBI102"
-  ],
-  "contact": {
-	"homepage": "https://minecraft.curseforge.com/projects/cmt",
-	"sources": "https://github.com/ENDERZOMBI102/CustomMapsTools",
-	"issues": "https://github.com/ENDERZOMBI102/CustomMapsTools/issues"
-  },
-  "license": "Apache-2.0",
-  "icon": "icon.png",
-  "entrypoints": {
-	"main": [
-	  "com.enderzombi102.cmt.CustomMapsTools"
+	"schemaVersion": 1,
+	"id": "cmt",
+	"name": "Custom Maps Tools",
+	"description": "The ultimate customization mod",
+	"version": "1.0.0",
+	"authors": [
+		"ENDERZOMBI102"
 	],
-	"modmenu": [
-	  "com.enderzombi102.cmt.config.ModMenu"
-	]
-  },
-  "depends": {
-	"fabric-command-api-v1": "*"
-  }
+	"contact": {
+		"homepage": "https://minecraft.curseforge.com/projects/cmt",
+		"sources": "https://github.com/ENDERZOMBI102/CustomMapsTools",
+		"issues": "https://github.com/ENDERZOMBI102/CustomMapsTools/issues"
+	},
+	"license": "Apache-2.0",
+	"icon": "icon.png",
+	"entrypoints": {
+		"main": [
+			"com.enderzombi102.cmt.CustomMapsTools"
+		],
+		"server": [
+			"com.enderzombi102.cmt.CustomMapsTools"
+		],
+		"client": [
+			"com.enderzombi102.cmt.CustomMapsTools"
+		],
+		"modmenu": [
+			"com.enderzombi102.cmt.config.ModMenu"
+		]
+	},
+	"mixins": [
+		"cmt.mixins.json"
+	],
+	"depends": {
+		"fabric-command-api-v1": "*",
+		"cloth-config2": "4.8.2",
+		"autoconfig1u": "3.2.2"
+	}
 }

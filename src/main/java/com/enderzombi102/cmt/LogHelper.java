@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 public class LogHelper {
 	private static final Logger logger = LogManager.getLogger("CustomMapsTools");
 
+	public static Logger getlogger() {
+		return logger;
+	}
+
 	// only text
 	public static void debug(Object txt) {
 		logger.debug(txt);
