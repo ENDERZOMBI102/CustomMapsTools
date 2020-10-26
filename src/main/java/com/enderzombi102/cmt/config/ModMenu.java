@@ -11,11 +11,6 @@ import net.minecraft.client.gui.screen.Screen;
 public class ModMenu implements ModMenuApi {
 
 	@Override
-	public String getModId() {
-		return "cmt"; // Return your modid here
-	}
-
-	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
 		return parent -> AutoConfig.getConfigScreen(ModConfig.class, parent).get();
 	}
