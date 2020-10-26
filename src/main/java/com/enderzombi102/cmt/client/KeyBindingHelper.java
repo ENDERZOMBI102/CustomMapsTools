@@ -125,34 +125,34 @@ public class KeyBindingHelper {
 		<E> int addEntry(E entry);
 	}
 
-	public static class NewKeyBindingEntry extends ControlsListWidget.KeyBindingEntry {
-
-		protected final KeyBinding binding;
-		protected final Text bindingName;
-		protected final ButtonWidget editButton;
-		protected final ButtonWidget resetButton;
-
-		public NewKeyBindingEntry(final KeyBind bind) {
-			super();
-			this.binding = bind.getKeyBinding();
-			this.bindingName = bind.getTranslationTextT();
-			this.editButton = new ButtonWidget(0, 0, 75, 20, bind.getTranslationTextT(), (buttonWidget) -> {
-				ControlsOptionsScreen.this.parent.focusedBinding = binding;
-			}) {
-				protected MutableText getNarrationMessage() {
-					return binding.isUnbound() ? new TranslatableText("narrator.controls.unbound", new Object[]{text}) : new TranslatableText("narrator.controls.bound", new Object[]{text, super.getNarrationMessage()});
-				}
-			};
-			this.resetButton = new ButtonWidget(0, 0, 50, 20, new TranslatableText("controls.reset"), (buttonWidget) -> {
-				this.client.options.setKeyCode(binding, binding.getDefaultKey());
-				KeyBinding.updateKeysByCode();
-			}) {
-				protected MutableText getNarrationMessage() {
-					return new TranslatableText("narrator.controls.reset", bind.getTranslationTextT() );
-				}
-			};
-		}
-
-	}
+//	public static class NewKeyBindingEntry extends ControlsListWidget.KeyBindingEntry {
+//
+//		protected final KeyBinding binding;
+//		protected final Text bindingName;
+//		protected final ButtonWidget editButton;
+//		protected final ButtonWidget resetButton;
+//
+//		public NewKeyBindingEntry(final KeyBind bind) {
+//			super();
+//			this.binding = bind.getKeyBinding();
+//			this.bindingName = bind.getTranslationTextT();
+//			this.editButton = new ButtonWidget(0, 0, 75, 20, bind.getTranslationTextT(), (buttonWidget) -> {
+//				ControlsOptionsScreen.this.parent.focusedBinding = binding;
+//			}) {
+//				protected MutableText getNarrationMessage() {
+//					return binding.isUnbound() ? new TranslatableText("narrator.controls.unbound", new Object[]{text}) : new TranslatableText("narrator.controls.bound", new Object[]{text, super.getNarrationMessage()});
+//				}
+//			};
+//			this.resetButton = new ButtonWidget(0, 0, 50, 20, new TranslatableText("controls.reset"), (buttonWidget) -> {
+//				this.client.options.setKeyCode(binding, binding.getDefaultKey());
+//				KeyBinding.updateKeysByCode();
+//			}) {
+//				protected MutableText getNarrationMessage() {
+//					return new TranslatableText("narrator.controls.reset", bind.getTranslationTextT() );
+//				}
+//			};
+//		}
+//
+//	}
 
 }
