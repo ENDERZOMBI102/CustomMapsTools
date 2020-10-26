@@ -1,12 +1,9 @@
 package com.enderzombi102.cmt;
 
-import com.enderzombi102.cmt.client.ClientTweaker;
+import com.enderzombi102.cmt.client.KeyBindingHelper;
 import com.enderzombi102.cmt.config.ModConfig;
-import com.enderzombi102.cmt.packets.PacketsIdentifiers;
-import com.enderzombi102.cmt.server.ServerTweaker;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
+import com.enderzombi102.cmt.proxy.ClientProxy;
+import com.enderzombi102.cmt.proxy.CommonProxy;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
@@ -21,6 +18,7 @@ import net.fabricmc.api.ModInitializer;
 public class CustomMapsTools implements ModInitializer, ClientModInitializer, DedicatedServerModInitializer {
 
 	public static ModConfig config;
+	public static CommonProxy proxy;
 
 	@Override
 	public void onInitialize() {
@@ -28,20 +26,19 @@ public class CustomMapsTools implements ModInitializer, ClientModInitializer, De
 //		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
 //		config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
-
 	}
 
 
 	@Override
 	public void onInitializeClient() {
 		LogHelper.info("Setting up window callbacks");
-		new ClientTweaker();
-
+		proxy = new ClientProxy();
+		KeyBindingHelper.registerEventHandler();
 	}
 
 	@Override
 	public void onInitializeServer() {
 		LogHelper.info("Hello Fabric Server World!");
-		new ServerTweaker();
+		proxy = new CommonProxy();
 	}
 }

@@ -3,22 +3,13 @@ package com.enderzombi102.cmt.client;
 import com.enderzombi102.cmt.LogHelper;
 import com.enderzombi102.cmt.Utils;
 import com.enderzombi102.cmt.packets.PacketsIdentifiers;
-import me.shedaniel.clothconfig2.impl.KeyBindingHooks;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.java.games.input.Component;
 import net.minecraft.client.options.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.ArrayUtils;
 
-import javax.imageio.ImageIO;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 
 public class ClientTweaker {
 
@@ -50,14 +41,6 @@ public class ClientTweaker {
 					);
 				}
 		);
-
-
-
-
-
-
-		// updateIcon();
-		// updateTitle();
 	}
 
 
@@ -69,16 +52,6 @@ public class ClientTweaker {
 	public static void updateIcon() {
 
 
-	}
-
-	public static void removeKeyBind(KeyBinding key) {
-
-	}
-
-	public static KeyBinding addKeyBind(String name, String category, Character defKey) {
-
-
-		return new KeyBinding("", 9, "");
 	}
 
 
