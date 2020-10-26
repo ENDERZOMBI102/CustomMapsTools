@@ -17,6 +17,13 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(ControlsListWidget.class)
 public abstract class ControlsListWidgetMixin {
 
+	/**
+	 * SCOPE OF ALL KEYBOARD-RELATED STUFF
+	 * implement hot-loading keybindings
+	 * all left to do is somwhow show the binding in the controls options screen
+	 */
+
+
 	@SneakyThrows
 	@Inject(at = @At("TAIL"), method = "<init>")
 	public void constructor(ControlsOptionsScreen parent, MinecraftClient client, CallbackInfo info) {
