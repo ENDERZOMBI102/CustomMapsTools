@@ -1,10 +1,9 @@
 package com.enderzombi102.cmt.client;
 
-import com.enderzombi102.cmt.LogHelper;
+import com.enderzombi102.cmt.CustomMapsTools;
 import com.enderzombi102.cmt.Utils;
 import com.enderzombi102.cmt.packets.PacketsIdentifiers;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.minecraft.client.options.KeyBinding;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 
@@ -28,7 +27,7 @@ public class ClientTweaker {
 					ResourceType.CLIENT_RESOURCES, new Identifier("icons/icon_32x32.png")
 			);
 		} catch (IOException e) {
-			LogHelper.warn("Can't get default icons! how is that possible?");
+			CustomMapsTools.logger.warn("Can't get default icons! how is that possible?");
 		}
 
 		ClientSidePacketRegistry.INSTANCE.register( PacketsIdentifiers.WORLD_SETTINGS_PACKET_ID,

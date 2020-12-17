@@ -15,7 +15,6 @@ public class KeyboardMixin {
 	@Inject( at = @At(value="HEAD"), method = "onKey" )
 	public void onKey(long window, int key, int scancode, int i, int j, CallbackInfo info) {
 		if( window == MinecraftClient.getInstance().getWindow().getHandle() ) {
-
 			for (KeyBindingHelper.KeyBind bind : KeyBindingHelper.getKeyCallbacks() ) {
 				if ( bind.getKey() == key && InputUtil.isKeyPressed( MinecraftClient.getInstance().getWindow().getHandle(), bind.getKey() ) ) {
 					bind.getCallback().accept( MinecraftClient.getInstance() );

@@ -2,11 +2,13 @@ package com.enderzombi102.cmt;
 
 import com.enderzombi102.cmt.client.KeyBindingHelper;
 import com.enderzombi102.cmt.config.ModConfig;
-import com.enderzombi102.cmt.proxy.ClientProxy;
-import com.enderzombi102.cmt.proxy.CommonProxy;
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /** TODO: MinecraftClient.openScreen() calls updateTitle that gets the title from getWindowTitle
 *	need to mixin in it and do an early return to give it MY title
@@ -17,28 +19,24 @@ import net.fabricmc.api.ModInitializer;
 
 public class CustomMapsTools implements ModInitializer, ClientModInitializer, DedicatedServerModInitializer {
 
-	public static ModConfig config;
-	public static CommonProxy proxy;
+	public static Logger logger = LogManager.getLogger("CustomMapsTools");
 
 	@Override
 	public void onInitialize() {
-		LogHelper.info("setting up config page!");
-//		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
-//		config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
-
+		logger.info("setting up config page!");
+		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
 	}
 
 
 	@Override
 	public void onInitializeClient() {
-		LogHelper.info("Setting up window callbacks");
-		proxy = new ClientProxy();
+		logger.info("Setting up window callbacks");
+		// until its fixed, disable this "module"
 		KeyBindingHelper.registerEventHandler();
 	}
 
 	@Override
 	public void onInitializeServer() {
-		LogHelper.info("Hello Fabric Server World!");
-		proxy = new CommonProxy();
+		logger.info("Hello Fabric Server World!");
 	}
 }

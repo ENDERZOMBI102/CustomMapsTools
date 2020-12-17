@@ -1,6 +1,8 @@
 package com.enderzombi102.cmt.mixins;
 
+import com.enderzombi102.cmt.client.WindowHandler;
 import com.enderzombi102.cmt.client.window.WindowMoveCallback;
+import com.enderzombi102.cmt.client.window.WindowTitleChangeEvent;
 import net.minecraft.client.util.Window;
 import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Final;
@@ -9,6 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(Window.class)
 public abstract class WindowMixin {
@@ -23,7 +26,6 @@ public abstract class WindowMixin {
 
 	@Shadow public abstract int getY();
 
-	@SuppressWarnings("")
 	@Inject(at = @At("HEAD"), method = "onWindowPosChanged", cancellable = true)
 	private void onWindowPosChanged(long window, int x, int y, CallbackInfo info) {
 
@@ -33,5 +35,23 @@ public abstract class WindowMixin {
 			org.lwjgl.glfw.GLFW.glfwSetWindowPos(this.handle, this.getX(), this.getY() );
 			info.cancel();
 		}
+	}
+
+	@Inject(at=@At("HEAD"), method = "setTitle", cancellable = true, locals = LocalCapture.PRINT)
+	public void onSetTitle(String title, CallbackInfo info) {
+
+		WindowTitleChangeEvent.WindowTitleChangeEventData data = new WindowTitleChangeEvent.WindowTitleChangeEventData(
+				title, WindowHandler.getTitle()
+		);
+		WindowTitleChangeEvent.EVENT.invoker().process( data );
+
+		if ( data.isCancelled() ) {
+			title = data.getOldTitle();
+		} else {
+			title = data.getNewTitle();
+		}
+
+		WindowHandler.windowTitle = title;
+
 	}
 }
