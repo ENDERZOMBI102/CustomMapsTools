@@ -2,8 +2,7 @@ package com.enderzombi102.cmt.client;
 
 import com.enderzombi102.cmt.CustomMapsTools;
 import com.enderzombi102.cmt.mixins.KeyBindingEntryAccessor;
-import lombok.Getter;
-import lombok.Setter;
+import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.options.ControlsListWidget;
 import net.minecraft.client.options.KeyBinding;
@@ -11,17 +10,21 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class KeyBindingHelper {
 
-	@Getter
 	private static final ArrayList< KeyBind > keyCallbacks = new ArrayList<>();
 
-	public static KeyBind makeKeybind(int key, Consumer<MinecraftClient> callback, String transText, String category ) {
-		KeyBind bind = new KeyBind(key, callback);
+	public static ArrayList<KeyBind> getKeyCallbacks() {
+		return keyCallbacks;
+	}
+
+	public static KeyBind makeKeybind(int key, Consumer<MinecraftClient> callback, String transText, String category, boolean requiresInGame, boolean requiresInteracting ) {
+		KeyBind bind = new KeyBind(key, callback, transText, category, requiresInGame, requiresInteracting);
 		keyCallbacks.add( bind );
 		return bind;
 	}
@@ -30,85 +33,80 @@ public class KeyBindingHelper {
 		return keyCallbacks.remove( keyBind );
 	}
 
-	public static @Nullable KeyBind getKeybindPair(Consumer<MinecraftClient> func) {
+	public static @Nullable KeyBind getKeybind(Consumer<MinecraftClient> func) {
 		for (KeyBind bind : keyCallbacks ) {
-			if (bind.getCallback() == func) return bind;
+			if (bind.callback == func) return bind;
 		}
 		return null;
 	}
 
-	public static ArrayList<KeyBind> getKeybinds(int key) {
+	public static ArrayList<KeyBind> getKeybindsWithKey(int key) {
 		ArrayList<KeyBind> toReturn = new ArrayList<>();
 		for (KeyBind bind : keyCallbacks ) {
-			if ( bind.getKey() == key ) toReturn.add(bind);
+			if ( bind.key == key ) toReturn.add(bind);
 		}
 		return toReturn;
 	}
 
-	public static void registerEventHandler() {
-		makeKeybind(
-				Key.GLFW_KEY_K,
-				client -> CustomMapsTools.logger.info("WORKS!"),
-				"text.invalid.translation",
-				"category.custom.title"
-		);
-	}
+	public static class KeyBind extends KeyBinding {
 
-	public static class KeyBind {
-
-		@Setter
-		@Getter
 		private int key;
-		@Getter
-		@Setter
-		private String translationText;
-		@Getter
-		@Setter
-		private String category;
-		@Getter
+		private final String translationText;
+		public final String category;
 		private final Consumer<MinecraftClient> callback;
-		@Getter
-		private final KeyBindAdapter adapter = new KeyBindAdapter(this);
-		private ControlsListWidget.KeyBindingEntry entry = null;
+		public final boolean requiresInGame;
+		public final boolean requiresInteracting;
 
 		public KeyBind( int key, Consumer<MinecraftClient> callback ) {
-			this(key, callback, "placeholder", "placeholder");
+			this(key, callback, "placeholder", "placeholder", true, true);
 		}
 
-		public KeyBind( int key, Consumer<MinecraftClient> callback, String transText, String category ) {
+		public KeyBind( int key, Consumer<MinecraftClient> callback, String transText, String category, boolean requiresInGame, boolean requiresInteracting ) {
+			super(transText, key, category);
 			this.callback = callback;
 			this.key = key;
 			this.translationText = transText;
 			this.category = category;
+			this.requiresInGame = requiresInGame;
+			this.requiresInteracting = requiresInteracting;
+
+			// taken from FAPI
+			Map<String, Integer> map = KeyBindingAccessor.fabric_getCategoryMap();
+
+			if (! KeyBindingAccessor.fabric_getCategoryMap().containsKey(category) ) {
+
+				Optional<Integer> largest = map.values().stream().max(Integer::compareTo);
+				int largestInt = largest.orElse(0);
+				map.put(category, largestInt + 1);
+			}
 		}
 
-		public ControlsListWidget.KeyBindingEntry getEntry() {
-			if ( this.entry == null ) {
-				this.entry = KeyBindingEntryAccessor.invokeInit( this.adapter, this.getTranslationTextT() );
-			}
-			return this.entry;
+		public ControlsListWidget.KeyBindingEntry getEntry( ControlsListWidget parent ) {
+			return KeyBindingEntryAccessor.invokeInit( parent, this, this.getTranslationTextT() );
 		}
 
 		public Text getTranslationTextT() {
-			return new TranslatableText(this.translationText);
-		}
-	}
-
-	public static class KeyBindAdapter extends KeyBinding {
-
-		KeyBind bind;
-
-		public KeyBindAdapter(KeyBind bind) {
-			super(bind.translationText, bind.key, bind.category);
-			this.bind = bind;
+			return new TranslatableText( this.translationText );
 		}
 
 		@Override
 		public void setBoundKey(InputUtil.Key boundKey) {
-			this.bind.setKey( boundKey.getCode() );
+			this.key = boundKey.getCode();
 			super.setBoundKey(boundKey);
 		}
 
+		public int getKey() {
+			return key;
+		}
+
+		public Consumer<MinecraftClient> getCallback() {
+			return callback;
+		}
+
+		@Override
+		public String getCategory() {
+			return category;
+		}
 	}
 
 }

@@ -14,10 +14,20 @@ public class KeyboardMixin {
 
 	@Inject( at = @At(value="HEAD"), method = "onKey" )
 	public void onKey(long window, int key, int scancode, int i, int j, CallbackInfo info) {
-		if( window == MinecraftClient.getInstance().getWindow().getHandle() ) {
+		MinecraftClient mc = MinecraftClient.getInstance();
+		if( window == mc.getWindow().getHandle() ) {
+			// cycle in our keys
 			for (KeyBindingHelper.KeyBind bind : KeyBindingHelper.getKeyCallbacks() ) {
-				if ( bind.getKey() == key && InputUtil.isKeyPressed( MinecraftClient.getInstance().getWindow().getHandle(), bind.getKey() ) ) {
-					bind.getCallback().accept( MinecraftClient.getInstance() );
+				// check if its one of our keys
+				if ( bind.getKey() == key && InputUtil.isKeyPressed( mc.getWindow().getHandle(), bind.getKey() ) ) {
+					// check requirements
+					if ( bind.requiresInGame && !mc.isPaused() ) {
+						continue;
+					} else if ( bind.requiresInteracting && mc.currentScreen != null ) {
+						continue;
+					}
+					// all good, execute
+					bind.getCallback().accept( mc );
 				}
 			}
 

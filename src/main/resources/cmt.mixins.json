@@ -3,7 +3,10 @@
 	"minVersion": "0.8",
 	"package": "com.enderzombi102.cmt.mixins",
 	"compatibilityLevel": "JAVA_8",
-	"mixins": [],
+	"mixins": [
+		"ControlsListWidgetMixin",
+		"KeyBindingEntryAccessor"
+	],
 	"client": [
 		"KeyboardMixin",
 		"WindowMixin"
