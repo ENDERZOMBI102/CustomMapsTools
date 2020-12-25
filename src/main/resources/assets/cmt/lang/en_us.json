@@ -1,4 +1,6 @@
 {
 	"text.autoconfig.CustomMapsTools.title": "Custom Maps Tools",
-	"cmt.gui.hotreloadeablectrls.title": "Custom Controls"
+	"cmt.gui.hotreloadeablectrls.title": "Custom Controls",
+	"category.custom.title": "Dynamic Keybinds",
+	"text.invalid.translation": "An invalid translation"
 }
