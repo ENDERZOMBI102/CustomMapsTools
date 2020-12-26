@@ -1,4 +1,4 @@
-package com.enderzombi102.cmt.mixins;
+package com.enderzombi102.cmt.mixins.client;
 
 import net.minecraft.client.gui.screen.options.ControlsListWidget;
 import net.minecraft.client.options.KeyBinding;

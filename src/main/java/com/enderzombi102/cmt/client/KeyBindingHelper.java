@@ -1,7 +1,7 @@
 package com.enderzombi102.cmt.client;
 
-import com.enderzombi102.cmt.CustomMapsTools;
-import com.enderzombi102.cmt.mixins.KeyBindingEntryAccessor;
+import com.enderzombi102.cmt.mixins.client.KeyBindingEntryAccessor;
+import com.google.common.collect.Maps;
 import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.options.ControlsListWidget;
@@ -9,7 +9,9 @@ import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
@@ -18,13 +20,14 @@ import java.util.function.Consumer;
 public class KeyBindingHelper {
 
 	private static final ArrayList< KeyBind > keyCallbacks = new ArrayList<>();
+	private static final ArrayList<String> defaultCategories = new ArrayList<>();
 
 	public static ArrayList<KeyBind> getKeyCallbacks() {
 		return keyCallbacks;
 	}
 
-	public static KeyBind makeKeybind(int key, Consumer<MinecraftClient> callback, String transText, String category, boolean requiresInGame, boolean requiresInteracting ) {
-		KeyBind bind = new KeyBind(key, callback, transText, category, requiresInGame, requiresInteracting);
+	public static KeyBind makeKeybind(int key, Consumer<MinecraftClient> callback, String transText, String category, Boolean requiresInGame, Boolean requiresInteracting ) {
+		KeyBind bind = new KeyBind(key, callback, transText, category, requiresInGame, requiresInteracting );
 		keyCallbacks.add( bind );
 		return bind;
 	}
@@ -51,7 +54,8 @@ public class KeyBindingHelper {
 	public static class KeyBind extends KeyBinding {
 
 		private int key;
-		private final String translationText;
+		private final int defaultKey;
+		private final TranslatableText translationText;
 		public final String category;
 		private final Consumer<MinecraftClient> callback;
 		public final boolean requiresInGame;
@@ -65,7 +69,8 @@ public class KeyBindingHelper {
 			super(transText, key, category);
 			this.callback = callback;
 			this.key = key;
-			this.translationText = transText;
+			this.defaultKey = key;
+			this.translationText = new TranslatableText( transText );
 			this.category = category;
 			this.requiresInGame = requiresInGame;
 			this.requiresInteracting = requiresInteracting;
@@ -82,17 +87,11 @@ public class KeyBindingHelper {
 		}
 
 		public ControlsListWidget.KeyBindingEntry getEntry( ControlsListWidget parent ) {
-			return KeyBindingEntryAccessor.invokeInit( parent, this, this.getTranslationTextT() );
+			return KeyBindingEntryAccessor.invokeInit( parent, this, this.translationText );
 		}
 
-		public Text getTranslationTextT() {
-			return new TranslatableText( this.translationText );
-		}
-
-		@Override
-		public void setBoundKey(InputUtil.Key boundKey) {
-			this.key = boundKey.getCode();
-			super.setBoundKey(boundKey);
+		public Text getTranslationText() {
+			return this.translationText;
 		}
 
 		public int getKey() {
@@ -103,10 +102,45 @@ public class KeyBindingHelper {
 			return callback;
 		}
 
+		public boolean useDefaultCategories() {
+			return defaultCategories.contains( this.category );
+		}
+
+		@Override
+		public void setBoundKey(InputUtil.Key boundKey) {
+			this.key = boundKey.getCode();
+			super.setBoundKey(boundKey);
+		}
+
 		@Override
 		public String getCategory() {
 			return category;
 		}
+
+		@Override
+		public InputUtil.Key getDefaultKey() {
+			return InputUtil.Type.KEYSYM.createFromCode(this.defaultKey);
+		}
+
+		@Override
+		public boolean isDefault() {
+			return this.key == this.defaultKey;
+		}
+
+		@Override
+		public String getTranslationKey() {
+			return this.translationText.getKey();
+		}
+	}
+
+	static {
+		defaultCategories.add("key.categories.movement");
+		defaultCategories.add("key.categories.gameplay");
+		defaultCategories.add("key.categories.inventory");
+		defaultCategories.add("key.categories.creative");
+		defaultCategories.add("key.categories.multiplayer");
+		defaultCategories.add("key.categories.ui");
+		defaultCategories.add("key.categories.misc");
 	}
 
 }

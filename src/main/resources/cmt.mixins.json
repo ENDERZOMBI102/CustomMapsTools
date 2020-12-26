@@ -4,12 +4,14 @@
 	"package": "com.enderzombi102.cmt.mixins",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
-		"ControlsListWidgetMixin",
-		"KeyBindingEntryAccessor"
+
 	],
 	"client": [
-		"KeyboardMixin",
-		"WindowMixin"
+		"client.CategoryEntryAccessor",
+		"client.ControlsListWidgetMixin",
+		"client.KeyBindingEntryAccessor",
+		"client.KeyboardMixin",
+		"client.WindowMixin"
 	],
 	"server": [],
 	"injectors": {
