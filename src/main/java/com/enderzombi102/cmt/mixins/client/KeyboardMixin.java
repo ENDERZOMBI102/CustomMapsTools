@@ -1,4 +1,4 @@
-package com.enderzombi102.cmt.mixins;
+package com.enderzombi102.cmt.mixins.client;
 
 import com.enderzombi102.cmt.client.KeyBindingHelper;
 import net.minecraft.client.Keyboard;
