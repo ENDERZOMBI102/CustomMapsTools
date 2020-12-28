@@ -26,6 +26,7 @@ public class CustomMapsTools implements ModInitializer, ClientModInitializer, De
 	public void onInitialize() {
 		logger.info("setting up config page!");
 		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
+		CMTContent.register();
 	}
 
 
