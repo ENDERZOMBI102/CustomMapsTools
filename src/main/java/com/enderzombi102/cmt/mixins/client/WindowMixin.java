@@ -37,7 +37,7 @@ public abstract class WindowMixin {
 		}
 	}
 
-	@Inject(at=@At("HEAD"), method = "setTitle", cancellable = true, locals = LocalCapture.PRINT)
+	@Inject(at=@At("HEAD"), method = "setTitle", cancellable = true )
 	public void onSetTitle(String title, CallbackInfo info) {
 
 		WindowTitleChangeEvent.WindowTitleChangeEventData data = new WindowTitleChangeEvent.WindowTitleChangeEventData(
