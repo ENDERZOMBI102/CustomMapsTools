@@ -11,10 +11,6 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/** TODO: MinecraftClient.openScreen() calls updateTitle that gets the title from getWindowTitle
- *	need to mixin in it and do an early return to give it MY title
- */
-
 // ---- this code gets the content of a gamerule ----
 // MinecraftServer server = client.getServer();
 // GameRules.Rule<?> rule = server.getGameRules().get(key);
