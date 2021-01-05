@@ -2,7 +2,7 @@ package com.enderzombi102.cmt.client;
 
 import com.enderzombi102.cmt.CustomMapsTools;
 import com.enderzombi102.cmt.Utils;
-import com.enderzombi102.cmt.packets.PacketsIdentifiers;
+import com.enderzombi102.cmt.network.packets.PacketsIdentifiers;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;

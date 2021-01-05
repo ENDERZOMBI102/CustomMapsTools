@@ -1,6 +1,5 @@
-package com.enderzombi102.cmt.packets;
+package com.enderzombi102.cmt.network.packets;
 
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.util.Identifier;
 
 public class PacketsIdentifiers {

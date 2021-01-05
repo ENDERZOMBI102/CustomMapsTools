@@ -11,7 +11,8 @@
 		"client.ControlsListWidgetMixin",
 		"client.KeyBindingEntryAccessor",
 		"client.KeyboardMixin",
-		"client.WindowMixin"
+		"client.WindowMixin",
+		"client.MinecraftClientMixin"
 	],
 	"server": [],
 	"injectors": {

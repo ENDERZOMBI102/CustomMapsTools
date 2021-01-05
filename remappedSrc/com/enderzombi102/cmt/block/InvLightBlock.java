@@ -7,12 +7,16 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
@@ -58,23 +62,15 @@ public class InvLightBlock extends Block {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if ( world.isClient() ) return ActionResult.SUCCESS;
+		if ( world.isClient() ) return ActionResult.CONSUME;
 		int currentLevel = state.get(LIGHT_LEVEL);
-		if (! player.isSneaking() ) {
-			if (currentLevel > 0) {
-				currentLevel = currentLevel - 1;
-			} else {
-				currentLevel = 15;
-			}
+		if (currentLevel > 0) {
+			world.setBlockState(pos, state.with(LIGHT_LEVEL, currentLevel - 1 ) );
 		} else {
-			if (currentLevel < 15) {
-				currentLevel = currentLevel + 1;
-			} else {
-				currentLevel = 0;
-			}
+			world.setBlockState(pos, state.with(LIGHT_LEVEL, 15 ) );
 		}
-		world.setBlockState( pos, state.with(LIGHT_LEVEL, currentLevel) );
 		return ActionResult.PASS;
 	}
 
@@ -82,9 +78,13 @@ public class InvLightBlock extends Block {
 	@Environment(EnvType.CLIENT)
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
 		PlayerEntity player = MinecraftClient.getInstance().player;
-		if ( player == null ) return;
-
-		if ( player.getMainHandStack().getItem().equals(CMTContent.invLightItem) ) {
+		boolean hasInvLightInHand = false;
+		for ( ItemStack item : player.getItemsHand() ) {
+			if ( item.getItem().equals(CMTContent.invLightItem) ) {
+				hasInvLightInHand = true;
+			}
+		}
+		if ( hasInvLightInHand ) {
 			int i = pos.getX(), j = pos.getY(), k = pos.getZ();
 			world.addParticle(
 					CMTContent.invLightParticle,
