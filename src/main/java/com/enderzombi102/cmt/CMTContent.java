@@ -1,8 +1,11 @@
 package com.enderzombi102.cmt;
 
 import com.enderzombi102.cmt.block.InvLightBlock;
+import com.enderzombi102.cmt.particle.InvLightParticle;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.block.Block;
+import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -28,7 +31,8 @@ public class CMTContent {
 		logger.info("registering items..");
 		Registry.register( Registry.ITEM, "cmt:inv_light", invLightItem );
 		logger.info("registering particles..");
-		invLightParticle = Registry.register(Registry.PARTICLE_TYPE, "cmt:inv_light", FabricParticleTypes.simple(true) );
+		invLightParticle = Registry.register(Registry.PARTICLE_TYPE, "cmt:inv_light", FabricParticleTypes.simple() );
+		ParticleFactoryRegistry.getInstance().register(invLightParticle, new InvLightParticle.Factory() );
 		logger.info("everything has been registered!");
 	}
 }
