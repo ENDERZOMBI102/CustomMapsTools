@@ -1,4 +1,5 @@
 {
 	"text.autoconfig.CustomMapsTools.title": "Custom Maps Tools",
-	"block.cmt.inv_light": "Invisible Light"
+	"block.cmt.inv_light": "Invisible Light",
+	"block.cmt.screen_block": "Screen Block"
 }

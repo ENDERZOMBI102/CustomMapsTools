@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "cmt:block/screen_block"
+		}
+	}
+}

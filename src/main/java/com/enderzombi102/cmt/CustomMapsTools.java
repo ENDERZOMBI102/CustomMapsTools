@@ -3,6 +3,7 @@ package com.enderzombi102.cmt;
 import com.enderzombi102.cmt.config.ModConfig;
 import com.enderzombi102.cmt.network.ClientPacketReciver;
 import com.enderzombi102.cmt.network.ServerPacketReciver;
+import io.github.prospector.modmenu.gui.ModListEntry;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
@@ -10,6 +11,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -33,14 +35,13 @@ public class CustomMapsTools implements ModInitializer, ClientModInitializer, De
 		logger.info("setting up config page!");
 		AutoConfig.register(ModConfig.class, Toml4jConfigSerializer::new);
 		CMTContent.register();
-		ServerPacketReciver.register();
+
 	}
 
 
 	@Override
 	public void onInitializeClient() {
-		logger.info("Setting up window callbacks");
-		ClientPacketReciver.register();
+		CMTContent.registerClientThings();
 	}
 
 	@Override
