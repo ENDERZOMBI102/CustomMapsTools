@@ -23,10 +23,18 @@
 			"com.enderzombi102.cmt.CustomMapsTools"
 		],
 		"client": [
-			"com.enderzombi102.cmt.CustomMapsTools"
+			"com.enderzombi102.cmt.CMTContent::registerClientThings"
 		],
 		"modmenu": [
 			"com.enderzombi102.cmt.config.ModMenu"
+		],
+		"cardinal-components-world": [
+			"com.enderzombi102.cmt.CustomMapsTools"
+		]
+	},
+	"custom": {
+		"cardinal-components": [
+			"cmt:world_zone_manager"
 		]
 	},
 	"mixins": [
