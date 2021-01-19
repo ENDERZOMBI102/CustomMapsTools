@@ -9,11 +9,13 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import static com.enderzombi102.cmt.CustomMapsTools.LOGGER;
@@ -27,15 +29,30 @@ public class ZoneCommand {
 				literal("zone")
 						.requires( source -> source.hasPermissionLevel(4) )
 						.then( literal("list")
-								.then( argument("type", StringArgumentType.string() )
-										.executes(ZoneCommand::onList)
-								)
+								.executes(ZoneCommand::onList)
 						)
 						.then( literal("add")
-								.executes(ZoneCommand::onAdd)
+								.then( argument("type", StringArgumentType.string() )
+										.then( argument("identifier", StringArgumentType.string() )
+												.then( argument("pos0", BlockPosArgumentType.blockPos() )
+														.then( argument("pos1", BlockPosArgumentType.blockPos() )
+																.then( argument("enter", StringArgumentType.string() )
+																		.then( argument("mid", StringArgumentType.string() )
+																				.then( argument("leave", StringArgumentType.string() )
+																						.executes(ZoneCommand::onAdd)
+																				)
+																		)
+																)
+														)
+												)
+										)
+								)
 						)
 						.then( literal("remove")
-								.executes(ZoneCommand::onRemove)
+								.then( argument("identifier", StringArgumentType.string() )
+										.executes(ZoneCommand::onRemove)
+								)
+
 						)
 		);
 	}
@@ -46,10 +63,14 @@ public class ZoneCommand {
 		String mid = ctx.getArgument("mid", String.class);
 		String leave = ctx.getArgument("leave", String.class);
 		String id = ctx.getArgument("id", String.class);
-		Vec3d pos0, pos1;
+		// coordinate conversion
+		BlockPos pos0b = ctx.getArgument("pos0", BlockPos.class), pos1b = ctx.getArgument("pos1", BlockPos.class);
+		Vec3d pos0 = new Vec3d( pos0b.getX(), pos0b.getY(), pos0b.getZ() ), pos1 = new Vec3d( pos1b.getX(), pos1b.getY(), pos1b.getZ() );
+		// other vars
 		ServerWorld world = ctx.getSource().getWorld();
 		AbstractZone<? extends Entity> zone;
 		ZoneActionData data = new ZoneActionData();
+		// create zone
 		switch (type) {
 			case "FunctionZone":
 				data.withEnterFunction( new Identifier( enter ) ).withMidFunction( new Identifier( mid ) ).withLeaveFunction( new Identifier( leave ) );
@@ -60,6 +81,7 @@ public class ZoneCommand {
 				zone = new CommandZone(world, pos0, pos1, id, data);
 				break;
 		}
+		// add zone
 		CMTContent.ZONE_COMP_KEY.get( world ).addZone( zone );
 		return 1;
 	}
