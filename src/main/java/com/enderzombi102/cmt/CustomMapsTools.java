@@ -1,43 +1,34 @@
 package com.enderzombi102.cmt;
 
+import com.enderzombi102.cmt.command.ZoneCommand;
 import com.enderzombi102.cmt.config.ModConfig;
-import com.enderzombi102.cmt.network.ClientPacketReciver;
-import com.enderzombi102.cmt.network.ServerPacketReciver;
-import io.github.prospector.modmenu.gui.ModListEntry;
+import com.enderzombi102.cmt.zone.ZoneManager;
+import dev.onyxstudios.cca.api.v3.world.WorldComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.world.WorldComponentInitializer;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static net.minecraft.server.command.CommandManager.*;
 
+public class CustomMapsTools implements ModInitializer, ClientModInitializer, WorldComponentInitializer {
 
-// ---- this code gets the content of a gamerule ----
-// MinecraftServer server = client.getServer();
-// GameRules.Rule<?> rule = server.getGameRules().get(key);
-// logger.info( rule.toString() );
+	public static final Logger LOGGER = LogManager.getLogger("CustomMapsTools");
 
-public class CustomMapsTools implements ModInitializer, ClientModInitializer, DedicatedServerModInitializer {
-
-	public static Logger logger = LogManager.getLogger("CustomMapsTools");
 
 	@Override
 	public void onInitialize() {
-		logger.info("setting up config page!");
+		LOGGER.info("setting up config page!");
 		AutoConfig.register(ModConfig.class, Toml4jConfigSerializer::new);
 		CMTContent.register();
-
+		CommandRegistrationCallback.EVENT.register( ( dispatcher, dedicated ) -> {
+			LOGGER.info("Registering commands!");
+			ZoneCommand.register(dispatcher);
+		});
 	}
-
 
 	@Override
 	public void onInitializeClient() {
@@ -45,7 +36,7 @@ public class CustomMapsTools implements ModInitializer, ClientModInitializer, De
 	}
 
 	@Override
-	public void onInitializeServer() {
-		logger.info("Hello Fabric Server World!");
+	public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry) {
+		registry.register(CMTContent.ZONE_COMP_KEY, ZoneManager::new);
 	}
 }
