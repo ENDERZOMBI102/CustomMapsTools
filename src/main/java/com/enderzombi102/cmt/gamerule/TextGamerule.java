@@ -4,6 +4,8 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -14,6 +16,11 @@ public class TextGamerule extends GameRules.Rule<TextGamerule> {
 
 	private String value;
 	private String defValue;
+
+	// ---- this code gets the content of a gamerule ----
+	// MinecraftServer server = client.getServer();
+	// GameRules.Rule<?> rule = server.getGameRules().get(key);
+	// logger.info( rule.toString() );
 
 	public static GameRules.Type<TextGamerule> create(String initialValue, BiConsumer<MinecraftServer, TextGamerule> changeCallback) {
 		return new GameRules.Type<>(
@@ -83,4 +90,11 @@ public class TextGamerule extends GameRules.Rule<TextGamerule> {
 	public TextGamerule getObj() {
 		return this;
 	}
+
+	public static String getRuleContent(World world, GameRules.Key<TextGamerule> key) {
+		MinecraftServer server = world.getServer();
+		GameRules.Rule<?> rule = server.getGameRules().get(key);
+		return rule.toString();
+	}
+
 }
