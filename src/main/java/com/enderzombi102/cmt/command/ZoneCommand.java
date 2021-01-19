@@ -11,6 +11,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.argument.BlockPosArgumentType;
+import net.minecraft.command.argument.PosArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
@@ -66,7 +67,8 @@ public class ZoneCommand {
 		String leave = ctx.getArgument("leave", String.class);
 		String id = ctx.getArgument("identifier", String.class);
 		// coordinate conversion
-		BlockPos pos0b = ctx.getArgument("pos0", BlockPos.class), pos1b = ctx.getArgument("pos1", BlockPos.class);
+		BlockPos pos0b = ctx.getArgument("pos0", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
+		BlockPos pos1b = ctx.getArgument("pos1", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
 		Vec3d pos0 = new Vec3d( pos0b.getX(), pos0b.getY(), pos0b.getZ() ), pos1 = new Vec3d( pos1b.getX(), pos1b.getY(), pos1b.getZ() );
 		// other vars
 		ServerWorld world = ctx.getSource().getWorld();
