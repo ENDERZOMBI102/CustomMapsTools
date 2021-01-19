@@ -4,15 +4,17 @@
 	"package": "com.enderzombi102.cmt.mixins",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
-		"PlayerManagerMixin"
+		"IntegratedServerMixin",
+		"MinecraftDedicatedServerMixin",
+		"MinecraftServerMixin"
 	],
 	"client": [
 		"client.CategoryEntryAccessor",
 		"client.ControlsListWidgetMixin",
 		"client.KeyBindingEntryAccessor",
 		"client.KeyboardMixin",
-		"client.WindowMixin",
-		"client.MinecraftClientMixin"
+		"client.MinecraftClientMixin",
+		"client.WindowMixin"
 	],
 	"server": [],
 	"injectors": {
