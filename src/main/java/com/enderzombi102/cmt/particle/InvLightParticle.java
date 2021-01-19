@@ -20,7 +20,7 @@ public class InvLightParticle extends SpriteBillboardParticle {
 		super(world, x, y, z);
 		this.setSprite( MinecraftClient.getInstance().getItemRenderer().getModels().getSprite(itemConvertible) );
 		this.gravityStrength = 0.0F;
-		this.maxAge = 20;
+		this.maxAge = 40;
 		this.collidesWithWorld = false;
 	}
 

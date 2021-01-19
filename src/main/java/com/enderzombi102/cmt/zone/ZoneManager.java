@@ -71,13 +71,15 @@ public class ZoneManager implements ZoneComponent {
 	}
 
 	@Override
-	public void removeZone(PlayerEntity entity) {
+	public String removeZone(PlayerEntity entity) {
 		for (AbstractZone<? extends Entity> zone : this.zones) {
 			if( zone.getBox().intersects( entity.getBoundingBox() ) ) {
+				String buf = zone.id;
 				this.zones.remove( zone );
-				return;
+				return buf;
 			}
 		}
+		return null;
 	}
 
 	@Override
@@ -103,6 +105,13 @@ public class ZoneManager implements ZoneComponent {
 
 	public boolean playerInZone(List<PlayerEntity> entities, String id) {
 		for (PlayerEntity ent : entities ) {
+			if ( this.getZone(id).getLastEntities().contains(ent) ) return true;
+		}
+		return false;
+	}
+
+	public boolean entityInZone(List<Entity> entities, String id) {
+		for (Entity ent : entities ) {
 			if ( this.getZone(id).getLastEntities().contains(ent) ) return true;
 		}
 		return false;

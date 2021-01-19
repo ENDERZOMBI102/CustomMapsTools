@@ -35,8 +35,8 @@ public class FunctionZone extends AbstractZone<PlayerEntity> {
 
 	private void loadFunc() {
 		this.enterFunc = this.server.getCommandFunctionManager().getFunction( this.enterFunction ).get();
-		this.midFunc = this.server.getCommandFunctionManager().getFunction( this.enterFunction ).get();
-		this.leaveFunc = this.server.getCommandFunctionManager().getFunction( this.enterFunction ).get();
+		this.midFunc = this.server.getCommandFunctionManager().getFunction( this.midFunction ).get();
+		this.leaveFunc = this.server.getCommandFunctionManager().getFunction( this.leaveFunction ).get();
 	}
 
 	@Override
