@@ -78,6 +78,10 @@ public abstract class AbstractZone<T extends Entity> {
 		return new Box(this.pos0, this.pos1);
 	}
 
+	public List<T> getLastEntities() {
+		return this.lastEntities;
+	}
+
 	public abstract void onEnter(T entity);
 	public abstract void onLeave(T entity);
 	public abstract void onTick(T entity);
