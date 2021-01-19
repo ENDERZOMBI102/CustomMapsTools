@@ -13,7 +13,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.PosArgument;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
@@ -21,7 +20,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-import static com.enderzombi102.cmt.CustomMapsTools.LOGGER;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -52,8 +50,9 @@ public class ZoneCommand {
 								)
 						)
 						.then( literal("remove")
+								.executes(ZoneCommand::onRemovePlayer)
 								.then( argument("identifier", StringArgumentType.string() )
-										.executes(ZoneCommand::onRemove)
+										.executes(ZoneCommand::onRemoveIdentifier)
 								)
 
 						)
@@ -105,7 +104,16 @@ public class ZoneCommand {
 		return 1;
 	}
 
-	public static int onRemove(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+	public static int onRemoveIdentifier(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+		try {
+			CMTContent.ZONE_COMP_KEY.get( ctx.getSource().getWorld() ).removeZone( ctx.getArgument("identifier", String.class) );
+		} catch (NullPointerException e) {
+			throw new CommandException( new LiteralText("This command can only be executed by players") );
+		}
+		return 1;
+	}
+
+	public static int onRemovePlayer(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
 		try {
 				CMTContent.ZONE_COMP_KEY.get( ctx.getSource().getWorld() ).removeZone( ctx.getSource().getPlayer() );
 		} catch (NullPointerException e) {
