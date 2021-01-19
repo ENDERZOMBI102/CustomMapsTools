@@ -12,6 +12,9 @@ public interface ZoneComponent extends ComponentV3, ServerTickingComponent {
 
 	void addZone(AbstractZone<? extends Entity> zone);
 	void removeZone(PlayerEntity entity);
+	void removeZone(String id);
 	boolean containZoneWithIdentifier(String id);
+	boolean playerInZone(List<PlayerEntity> entities, String id);
+	AbstractZone<? extends Entity> getZone(String id);
 	List< AbstractZone<? extends Entity> > getZones();
 }

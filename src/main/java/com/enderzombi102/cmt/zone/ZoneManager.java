@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ZoneManager implements ZoneComponent {
@@ -80,6 +81,11 @@ public class ZoneManager implements ZoneComponent {
 	}
 
 	@Override
+	public void removeZone(String id) {
+		this.zones.remove( this.getZone(id) );
+	}
+
+	@Override
 	public boolean containZoneWithIdentifier(String id) {
 		for (AbstractZone<? extends Entity> zone : this.zones) {
 			if ( zone.id.equals(id) ) return true;
@@ -89,6 +95,17 @@ public class ZoneManager implements ZoneComponent {
 
 	public List< AbstractZone<? extends Entity> > getZones() {
 		return this.zones;
+	}
+
+	public AbstractZone<? extends Entity> getZone(String id) {
+		return this.zones.stream().filter( zone -> zone.id.equals(id) ).collect( Collectors.toList() ).get(0);
+	}
+
+	public boolean playerInZone(List<PlayerEntity> entities, String id) {
+		for (PlayerEntity ent : entities ) {
+			if ( this.getZone(id).getLastEntities().contains(ent) ) return true;
+		}
+		return false;
 	}
 
 }
