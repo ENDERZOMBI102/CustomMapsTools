@@ -9,7 +9,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.argument.BlockPosArgumentType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
@@ -62,7 +64,7 @@ public class ZoneCommand {
 		String enter = ctx.getArgument("enter", String.class);
 		String mid = ctx.getArgument("mid", String.class);
 		String leave = ctx.getArgument("leave", String.class);
-		String id = ctx.getArgument("id", String.class);
+		String id = ctx.getArgument("identifier", String.class);
 		// coordinate conversion
 		BlockPos pos0b = ctx.getArgument("pos0", BlockPos.class), pos1b = ctx.getArgument("pos1", BlockPos.class);
 		Vec3d pos0 = new Vec3d( pos0b.getX(), pos0b.getY(), pos0b.getZ() ), pos1 = new Vec3d( pos1b.getX(), pos1b.getY(), pos1b.getZ() );
@@ -101,7 +103,12 @@ public class ZoneCommand {
 		return 1;
 	}
 
-	public static int onRemove(CommandContext<ServerCommandSource> ctx) {
+	public static int onRemove(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+		try {
+				CMTContent.ZONE_COMP_KEY.get( ctx.getSource().getWorld() ).removeZone( ctx.getSource().getPlayer() );
+		} catch (NullPointerException e) {
+			throw new CommandException( new LiteralText("This command can only be executed by players") );
+		}
 		return 1;
 	}
 }
