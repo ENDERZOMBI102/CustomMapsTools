@@ -1,5 +1,7 @@
 {
+	"itemGroup.cmt.item_group": "Custom Maps Tools",
 	"text.autoconfig.CustomMapsTools.title": "Custom Maps Tools",
 	"block.cmt.inv_light": "Invisible Light",
-	"block.cmt.screen_block": "Screen Block"
+	"block.cmt.screen_block": "Screen Block",
+	"item.cmt.zone_creator": "Zone Creator"
 }
