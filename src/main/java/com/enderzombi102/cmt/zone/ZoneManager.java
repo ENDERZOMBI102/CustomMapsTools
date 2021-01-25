@@ -7,10 +7,11 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ZoneManager implements ZoneComponent {
@@ -64,6 +65,8 @@ public class ZoneManager implements ZoneComponent {
 		}
 	}
 
+	// ZoneComponent-specific methods
+
 	@Override
 	public void addZone(AbstractZone<? extends Entity> zone) {
 		zone.world = this.world;
@@ -88,33 +91,42 @@ public class ZoneManager implements ZoneComponent {
 	}
 
 	@Override
-	public boolean containZoneWithIdentifier(String id) {
-		for (AbstractZone<? extends Entity> zone : this.zones) {
-			if ( zone.id.equals(id) ) return true;
+	public boolean containsZone(String id) {
+		return this.zones.stream().anyMatch(zone -> zone.id.equals(id) );
+	}
+
+	@Override
+	public boolean entityInZone(List<Entity> entities, String id) {
+		AbstractZone<? extends Entity> zone = this.getZone(id);
+		if ( zone == null ) return false;
+		for (Entity ent : entities ) {
+			if ( zone.getLastEntities().contains(ent) ) return true;
 		}
 		return false;
 	}
 
+	@Override
+	public @Nullable AbstractZone<? extends Entity> getZone(String id) {
+		return this.zones.stream().filter( zone -> zone.id.equals(id) ).findAny().orElse(null);
+	}
+
+	@Override
 	public List< AbstractZone<? extends Entity> > getZones() {
 		return this.zones;
 	}
 
-	public AbstractZone<? extends Entity> getZone(String id) {
-		return this.zones.stream().filter( zone -> zone.id.equals(id) ).collect( Collectors.toList() ).get(0);
+	@Override
+	public boolean isIdValid(String id) {
+		return ! this.containsZone(id);
 	}
 
-	public boolean playerInZone(List<PlayerEntity> entities, String id) {
-		for (PlayerEntity ent : entities ) {
-			if ( this.getZone(id).getLastEntities().contains(ent) ) return true;
-		}
-		return false;
-	}
-
-	public boolean entityInZone(List<Entity> entities, String id) {
-		for (Entity ent : entities ) {
-			if ( this.getZone(id).getLastEntities().contains(ent) ) return true;
-		}
-		return false;
+	@Override
+	public String getRandomId() {
+		String id;
+		do {
+			id = RandomStringUtils.random(8);
+		} while ( this.isIdValid(id) );
+		return id;
 	}
 
 }
