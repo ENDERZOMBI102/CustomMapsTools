@@ -1,8 +1,7 @@
 package com.enderzombi102.cmt;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
@@ -14,16 +13,11 @@ import java.nio.ByteBuffer;
 
 public class Utils {
 
-	@Environment(EnvType.CLIENT)
-	public static MinecraftClient mcinstance() {
-		return net.minecraft.client.MinecraftClient.getInstance();
-	}
-
 	public static ByteBuffer readImageToBuffer(InputStream stream) throws IOException {
 
 		BufferedImage bufferedImage = ImageIO.read(stream);
 		IOUtils.closeQuietly(stream);
-		int[] aint = bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), (int[])null, 0, bufferedImage.getWidth());
+		int[] aint = bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null, 0, bufferedImage.getWidth());
 		ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
 
 		for (int i : aint) {
@@ -59,7 +53,7 @@ public class Utils {
 
 
 	public static ByteBuffer toByteBuffer(BufferedImage src) {
-		int[] aint = src.getRGB( 0, 0, src.getWidth(), src.getHeight(), (int[])null, 0, src.getWidth() );
+		int[] aint = src.getRGB( 0, 0, src.getWidth(), src.getHeight(), null, 0, src.getWidth() );
 		// allocate the required space
 		ByteBuffer buf = ByteBuffer.allocate(4 * aint.length);
 		// add everything
@@ -69,6 +63,10 @@ public class Utils {
 
 		buf.flip();
 		return buf;
+	}
+
+	public static Vec3d vecFrom(BlockPos pos) {
+		return new Vec3d( pos.getX(), pos.getY(), pos.getZ() );
 	}
 
 }
