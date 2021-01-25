@@ -1,6 +1,7 @@
 package com.enderzombi102.cmt.command;
 
 import com.enderzombi102.cmt.CMTContent;
+import com.enderzombi102.cmt.Utils;
 import com.enderzombi102.cmt.zone.AbstractZone;
 import com.enderzombi102.cmt.zone.CommandZone;
 import com.enderzombi102.cmt.zone.FunctionZone;
@@ -9,20 +10,14 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.suggestion.SuggestionProvider;
-import com.mojang.brigadier.suggestion.Suggestions;
-import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.argument.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.command.TeleportCommand;
-import net.minecraft.server.function.CommandFunction;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
@@ -138,10 +133,9 @@ public class ZoneCommand {
 
 	public static int onAddCommand(CommandContext<ServerCommandSource> ctx) {
 		String id = ctx.getArgument("identifier", String.class);
-		// coordinate conversion
-		BlockPos pos0b = ctx.getArgument("pos0", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
-		BlockPos pos1b = ctx.getArgument("pos1", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
-		Vec3d pos0 = new Vec3d( pos0b.getX(), pos0b.getY(), pos0b.getZ() ), pos1 = new Vec3d( pos1b.getX(), pos1b.getY(), pos1b.getZ() );
+		// coordinates
+		BlockPos pos0 = ctx.getArgument("pos0", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
+		BlockPos pos1 = ctx.getArgument("pos1", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
 		// other vars
 		ServerWorld world = ctx.getSource().getWorld();
 		AbstractZone<? extends Entity> zone;
@@ -150,7 +144,7 @@ public class ZoneCommand {
 		data.withEnterCommand( ctx.getArgument("enter", String.class) )
 				.withMidCommand( ctx.getArgument("mid", String.class) )
 				.withLeaveCommand( ctx.getArgument("leave", String.class) );
-		zone = new CommandZone(world, pos0, pos1, id, data);
+		zone = new CommandZone(world, Utils.vecFrom(pos0), Utils.vecFrom(pos1), id, data);
 		// add zone
 		CMTContent.ZONE_COMP_KEY.get( world ).addZone( zone );
 		ctx.getSource().sendFeedback( new LiteralText("Sucessfully added zone \""+id+"\""), false );
@@ -159,10 +153,9 @@ public class ZoneCommand {
 
 	public static int onAddFunction(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
 		String id = ctx.getArgument("identifier", String.class);
-		// coordinate conversion
-		BlockPos pos0b = ctx.getArgument("pos0", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
-		BlockPos pos1b = ctx.getArgument("pos1", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
-		Vec3d pos0 = new Vec3d( pos0b.getX(), pos0b.getY(), pos0b.getZ() ), pos1 = new Vec3d( pos1b.getX(), pos1b.getY(), pos1b.getZ() );
+		// coordinates
+		BlockPos pos0 = ctx.getArgument("pos0", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
+		BlockPos pos1 = ctx.getArgument("pos1", PosArgument.class).toAbsoluteBlockPos( ctx.getSource() );
 		// other vars
 		ServerWorld world = ctx.getSource().getWorld();
 		AbstractZone<? extends Entity> zone;
@@ -171,7 +164,7 @@ public class ZoneCommand {
 		data.withEnterFunction( getFuncIdentifier( ctx, "enterf") )
 				.withMidFunction( getFuncIdentifier( ctx, "midf") )
 				.withLeaveFunction( getFuncIdentifier(ctx, "leavef") );
-		zone = new FunctionZone(world, pos0, pos1, id, data);
+		zone = new FunctionZone(world, Utils.vecFrom(pos0), Utils.vecFrom(pos1), id, data);
 		// add zone
 		CMTContent.ZONE_COMP_KEY.get( world ).addZone( zone );
 		ctx.getSource().sendFeedback( new LiteralText("Sucessfully added zone \""+id+"\""), false );
