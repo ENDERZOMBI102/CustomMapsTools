@@ -5,13 +5,20 @@ import com.enderzombi102.cmt.CustomMapsTools;
 import com.enderzombi102.cmt.Utils;
 import com.enderzombi102.cmt.zone.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class ZoneCreatorItem extends Item {
 
@@ -22,6 +29,13 @@ public class ZoneCreatorItem extends Item {
 
 	public ZoneCreatorItem() {
 		super( new FabricItemSettings().group(CustomMapsTools.CMT_GROUP) );
+	}
+
+	@Override
+	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext ctx) {
+		tooltip.add( new LiteralText("Zone type: " + ZoneTypes.getType(this.type).toString() ) );
+		tooltip.add( new LiteralText("Position 0: " + this.pos0.toShortString() ) );
+		tooltip.add( new LiteralText("Position 1: " + this.pos1.toShortString() ) );
 	}
 
 	@Override
@@ -38,7 +52,6 @@ public class ZoneCreatorItem extends Item {
 			} else {
 				this.pos1 = ctx.getBlockPos();
 				ctx.getPlayer().sendMessage( new LiteralText("Point 1 set to {}.".replace("{}", this.pos1.toShortString() ) ), true);
-				createZone(ctx);
 			}
 		}
 		return ActionResult.SUCCESS;
@@ -66,4 +79,5 @@ public class ZoneCreatorItem extends Item {
 		}
 		mgr.addZone( zone );
 	}
+
 }
