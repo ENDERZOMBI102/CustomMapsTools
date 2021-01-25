@@ -9,15 +9,21 @@ import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static net.minecraft.server.command.CommandManager.*;
 
 public class CustomMapsTools implements ModInitializer, ClientModInitializer, WorldComponentInitializer {
 
 	public static final Logger LOGGER = LogManager.getLogger("CustomMapsTools");
-
+	public static final ItemGroup CMT_GROUP = FabricItemGroupBuilder.build(
+			new Identifier("cmt:item_group"),
+			() -> new ItemStack(CMTContent.invLightItem)
+	);
 
 	@Override
 	public void onInitialize() {
