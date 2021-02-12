@@ -1,9 +1,9 @@
 package com.enderzombi102.cmt;
 
 import com.enderzombi102.cmt.block.InvLightBlock;
-import com.enderzombi102.cmt.block.ScreenBlock;
-import com.enderzombi102.cmt.block.entity.ScreenBlockEntity;
-import com.enderzombi102.cmt.block.renderer.ScreenBlockEntityRenderer;
+import com.enderzombi102.cmt.block.DisplayBlock;
+import com.enderzombi102.cmt.block.entity.DisplayBlockEntity;
+import com.enderzombi102.cmt.block.renderer.DisplayBlockEntityRenderer;
 import com.enderzombi102.cmt.item.ZoneCreatorItem;
 import com.enderzombi102.cmt.particle.InvLightParticle;
 import com.enderzombi102.cmt.zone.ZoneComponent;
@@ -29,15 +29,15 @@ public class CMTContent {
 
 	// blocks
 	public static Block invLightBlock = new InvLightBlock();
-	public static Block screenBlock = new ScreenBlock();
+	public static Block displayBlock = new DisplayBlock();
 	// items
 	public static Item invLightItem = new BlockItem(invLightBlock, new Item.Settings().group(CMT_GROUP) );
-	public static Item screenBlockItem = new BlockItem(screenBlock, new Item.Settings().group(CMT_GROUP) );
+	public static Item displayBlockItem = new BlockItem(displayBlock, new Item.Settings().group(CMT_GROUP) );
 	public static Item zoneCreatorItem = new ZoneCreatorItem();
 	// particles
 	public static DefaultParticleType invLightParticle;
 	// block entities types
-	public static BlockEntityType<ScreenBlockEntity> screenBlockEntityType = BlockEntityType.Builder.create(ScreenBlockEntity::new, screenBlock).build(null);
+	public static BlockEntityType<DisplayBlockEntity> displayBlockEntityType = BlockEntityType.Builder.create(DisplayBlockEntity::new, displayBlock).build(null);
 	// CCA components
 	public static final ComponentKey<ZoneComponent> ZONE_COMP_KEY = ComponentRegistry.getOrCreate( new Identifier("cmt", "world_zone_manager"), ZoneComponent.class );
 
@@ -46,23 +46,23 @@ public class CMTContent {
 	public static void register() {
 		LOGGER.info("Registering blocks..");
 		Registry.register( Registry.BLOCK, "cmt:inv_light", invLightBlock );
-		Registry.register( Registry.BLOCK, "cmt:screen_block", screenBlock );
+		Registry.register( Registry.BLOCK, "cmt:display_block", displayBlock );
 		LOGGER.info("Registering items..");
 		Registry.register( Registry.ITEM, "cmt:inv_light", invLightItem );
-		Registry.register( Registry.ITEM, "cmt:screen_block", screenBlockItem );
+		Registry.register( Registry.ITEM, "cmt:display_block", displayBlockItem );
 		Registry.register( Registry.ITEM, "cmt:zone_creator", zoneCreatorItem );
 		LOGGER.info("Registering particles..");
 		invLightParticle = Registry.register(Registry.PARTICLE_TYPE, "cmt:inv_light", FabricParticleTypes.simple() );
 		ParticleFactoryRegistry.getInstance().register(invLightParticle, new InvLightParticle.Factory() );
 		LOGGER.info("Registering block entities..");
-		Registry.register(Registry.BLOCK_ENTITY_TYPE, "cmt:screen_block_entity.type", screenBlockEntityType);
+		Registry.register(Registry.BLOCK_ENTITY_TYPE, "cmt:screen_block_entity.type", displayBlockEntityType);
 		LOGGER.info("Everything that exist for both sides has been registered!");
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void registerClientThings() {
 		LOGGER.info("Registering Block Entity Renderers..");
-		BlockEntityRendererRegistry.INSTANCE.register(screenBlockEntityType, ScreenBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.INSTANCE.register(displayBlockEntityType, DisplayBlockEntityRenderer::new);
 		LOGGER.info("Everything client-side only has been registered!");
 	}
 }

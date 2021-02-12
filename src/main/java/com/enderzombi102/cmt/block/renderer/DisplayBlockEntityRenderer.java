@@ -1,6 +1,6 @@
 package com.enderzombi102.cmt.block.renderer;
 
-import com.enderzombi102.cmt.block.entity.ScreenBlockEntity;
+import com.enderzombi102.cmt.block.entity.DisplayBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -13,16 +13,16 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-public class ScreenBlockEntityRenderer extends BlockEntityRenderer<ScreenBlockEntity> {
+public class DisplayBlockEntityRenderer extends BlockEntityRenderer<DisplayBlockEntity> {
 
 	private static final ItemStack stack = new ItemStack(Items.JUKEBOX, 1);
 
-	public ScreenBlockEntityRenderer(BlockEntityRenderDispatcher dispatcher) {
+	public DisplayBlockEntityRenderer(BlockEntityRenderDispatcher dispatcher) {
 		super(dispatcher);
 	}
 
 	@Override
-	public void render(ScreenBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+	public void render(DisplayBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		matrices.push(); // always and in every case push before use a MatrixStack
 
 		double offset = Math.sin( (blockEntity.getWorld().getTime() + tickDelta) / 8.0 ) / 4.0;
