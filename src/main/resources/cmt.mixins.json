@@ -4,11 +4,11 @@
 	"package": "com.enderzombi102.cmt.mixins",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
-		"IntegratedServerMixin",
 		"MinecraftDedicatedServerMixin",
 		"MinecraftServerMixin"
 	],
 	"client": [
+		"client.IntegratedServerMixin",
 		"client.CategoryEntryAccessor",
 		"client.ControlsListWidgetMixin",
 		"client.KeyBindingEntryAccessor",
