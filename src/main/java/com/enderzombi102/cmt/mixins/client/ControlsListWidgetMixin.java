@@ -1,6 +1,7 @@
 package com.enderzombi102.cmt.mixins.client;
 
-import com.enderzombi102.cmt.client.KeyBindingHelper;
+import com.enderzombi102.cmt.client.keybind.KeyBind;
+import com.enderzombi102.cmt.client.keybind.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.options.ControlsListWidget;
 import net.minecraft.client.gui.screen.options.ControlsOptionsScreen;
@@ -31,9 +32,9 @@ public abstract class ControlsListWidgetMixin extends ElementListWidget {
 	@Inject(at = @At("TAIL"), method = "<init>")
 	public void constructor(ControlsOptionsScreen parent, MinecraftClient client, CallbackInfo info) {
 		String lastCategory = "";
-		for ( KeyBindingHelper.KeyBind bind : KeyBindingHelper.getKeyCallbacks() ) {
+		for ( KeyBind bind : KeyBindingHelper.getKeyCallbacks() ) {
 			// if the keybind uses a default category, we need to find that category, and add the keybind before the next one
-			if ( bind.useDefaultCategories() ) {
+			if ( bind.isUsingDefaultCategories() ) {
 				boolean catFound = false;
 				for ( Object rawentry : this.children() ) {
 					EntryListWidget.Entry entry = (EntryListWidget.Entry) rawentry;

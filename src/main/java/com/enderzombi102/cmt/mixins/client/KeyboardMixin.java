@@ -1,6 +1,7 @@
 package com.enderzombi102.cmt.mixins.client;
 
-import com.enderzombi102.cmt.client.KeyBindingHelper;
+import com.enderzombi102.cmt.client.keybind.KeyBind;
+import com.enderzombi102.cmt.client.keybind.KeyBindingHelper;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
@@ -17,7 +18,7 @@ public class KeyboardMixin {
 		MinecraftClient mc = MinecraftClient.getInstance();
 		if( window == mc.getWindow().getHandle() ) {
 			// cycle in our keys
-			for (KeyBindingHelper.KeyBind bind : KeyBindingHelper.getKeyCallbacks() ) {
+			for (KeyBind bind : KeyBindingHelper.getKeyCallbacks() ) {
 				// check if its one of our keys
 				if ( bind.getKey() == key && InputUtil.isKeyPressed( mc.getWindow().getHandle(), bind.getKey() ) ) {
 					// check requirements

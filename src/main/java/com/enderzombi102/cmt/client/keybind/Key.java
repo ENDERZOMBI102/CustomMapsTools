@@ -1,4 +1,4 @@
-package com.enderzombi102.cmt.client;
+package com.enderzombi102.cmt.client.keybind;
 
 public class Key {
 	/** keyboard keys */
