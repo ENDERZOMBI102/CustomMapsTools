@@ -41,8 +41,12 @@
 		"cmt.mixins.json"
 	],
 	"depends": {
-		"fabric-command-api-v1": "*",
+		"cardinal-components": ">2.7.1",
 		"cloth-config2": "4.8.2",
-		"autoconfig1u": "3.2.2"
+		"autoconfig1u": "3.2.2",
+		"minecraft": "1.16.x"
+	},
+	"suggests": {
+		"dynamicsoundfilters": "*"
 	}
 }
