@@ -19,6 +19,10 @@ repositories {
 	maven {
 		url = "https://dl.bintray.com/redstoneparadox/mods"
 	}
+	maven {
+		name = "BuildCraft"
+		url = "https://mod-buildcraft.com/maven"
+	}
 }
 
 minecraft {
@@ -56,7 +60,8 @@ dependencies {
 	modApi("io.github.redstoneparadox:OakTree:${project.oak_tree_version}") {
 		exclude group: 'net.fabricmc.fabric-api'
 	}
-	include "io.github.redstoneparadox:OakTree:${project.oak_tree_version}"
+
+	modCompile "alexiil.mc.lib:libnetworkstack-base:0.4.0"
 
 }
 
