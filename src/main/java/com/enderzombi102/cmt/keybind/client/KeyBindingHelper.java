@@ -1,4 +1,4 @@
-package com.enderzombi102.cmt.client.keybind;
+package com.enderzombi102.cmt.keybind.client;
 
 import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +15,7 @@ public class KeyBindingHelper {
 		return keyCallbacks;
 	}
 
-	public static KeyBind makeKeybind(int key, Consumer<MinecraftClient> callback, String transText, String category, Boolean requiresInGame, Boolean requiresInteracting ) {
+	public static KeyBind makeKeybind(Key key, Consumer<MinecraftClient> callback, String transText, String category, Boolean requiresInGame, Boolean requiresInteracting ) {
 		KeyBind bind = new KeyBind(key, callback, transText, category, requiresInGame, requiresInteracting );
 		keyCallbacks.add( bind );
 		return bind;
@@ -32,7 +32,7 @@ public class KeyBindingHelper {
 		return null;
 	}
 
-	public static ArrayList<KeyBind> getKeybindsWithKey(int key) {
+	public static ArrayList<KeyBind> getKeybindsWithKey(Key key) {
 		ArrayList<KeyBind> toReturn = new ArrayList<>();
 		for (KeyBind bind : keyCallbacks ) {
 			if ( bind.getKey() == key ) toReturn.add(bind);

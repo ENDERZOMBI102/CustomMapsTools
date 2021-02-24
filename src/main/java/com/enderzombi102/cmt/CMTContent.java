@@ -5,6 +5,8 @@ import com.enderzombi102.cmt.block.DisplayBlock;
 import com.enderzombi102.cmt.block.entity.DisplayBlockEntity;
 import com.enderzombi102.cmt.block.renderer.DisplayBlockEntityRenderer;
 import com.enderzombi102.cmt.item.ZoneCreatorItem;
+import com.enderzombi102.cmt.keybind.KeybindComponent;
+import com.enderzombi102.cmt.keybind.client.KeyBind;
 import com.enderzombi102.cmt.particle.InvLightParticle;
 import com.enderzombi102.cmt.zone.ZoneComponent;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
@@ -40,7 +42,7 @@ public class CMTContent {
 	public static BlockEntityType<DisplayBlockEntity> displayBlockEntityType = BlockEntityType.Builder.create(DisplayBlockEntity::new, displayBlock).build(null);
 	// CCA components
 	public static final ComponentKey<ZoneComponent> ZONE_COMP_KEY = ComponentRegistry.getOrCreate( new Identifier("cmt", "world_zone_manager"), ZoneComponent.class );
-
+	public static final ComponentKey<KeybindComponent> BIND_COMP_KEY = ComponentRegistry.getOrCreate( new Identifier("cmt", "level_bind_manager"), KeybindComponent.class );
 
 
 	public static void register() {

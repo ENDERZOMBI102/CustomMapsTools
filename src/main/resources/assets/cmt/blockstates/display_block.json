@@ -1,7 +1,7 @@
 {
 	"variants": {
 		"": {
-			"model": "cmt:block/screen_block"
+			"model": "cmt:block/display_block"
 		}
 	}
 }

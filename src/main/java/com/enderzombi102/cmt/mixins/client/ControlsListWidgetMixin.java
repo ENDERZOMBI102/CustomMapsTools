@@ -1,7 +1,7 @@
 package com.enderzombi102.cmt.mixins.client;
 
-import com.enderzombi102.cmt.client.keybind.KeyBind;
-import com.enderzombi102.cmt.client.keybind.KeyBindingHelper;
+import com.enderzombi102.cmt.keybind.client.KeyBind;
+import com.enderzombi102.cmt.keybind.client.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.options.ControlsListWidget;
 import net.minecraft.client.gui.screen.options.ControlsOptionsScreen;

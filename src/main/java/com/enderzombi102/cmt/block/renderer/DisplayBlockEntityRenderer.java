@@ -15,8 +15,6 @@ import net.minecraft.item.Items;
 
 public class DisplayBlockEntityRenderer extends BlockEntityRenderer<DisplayBlockEntity> {
 
-	private static final ItemStack stack = new ItemStack(Items.JUKEBOX, 1);
-
 	public DisplayBlockEntityRenderer(BlockEntityRenderDispatcher dispatcher) {
 		super(dispatcher);
 	}
@@ -33,7 +31,7 @@ public class DisplayBlockEntityRenderer extends BlockEntityRenderer<DisplayBlock
 		matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion((blockEntity.getWorld().getTime() + tickDelta) * 4));
 
 		int lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos().up());
-		MinecraftClient.getInstance().getItemRenderer().renderItem(stack, ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
+		MinecraftClient.getInstance().getItemRenderer().renderItem(blockEntity.getItem(), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
 
 		matrices.pop();
 	}

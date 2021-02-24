@@ -1,4 +1,4 @@
-package com.enderzombi102.cmt.client.keybind;
+package com.enderzombi102.cmt.keybind.client;
 
 import com.enderzombi102.cmt.mixins.client.KeyBindingEntryAccessor;
 import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static com.enderzombi102.cmt.client.keybind.KeyBindingHelper.defaultCategories;
+import static com.enderzombi102.cmt.keybind.client.KeyBindingHelper.defaultCategories;
 
 public class KeyBind extends KeyBinding {
 
@@ -25,19 +25,19 @@ public class KeyBind extends KeyBinding {
 	public final boolean requiresInGame;
 	public final boolean requiresInteracting;
 
-	public KeyBind( int key, Consumer<MinecraftClient> callback ) {
+	public KeyBind( Key key, Consumer<MinecraftClient> callback ) {
 		this(key, callback, "placeholder", "placeholder", true, true);
 	}
 
-	public KeyBind( int key, Consumer<MinecraftClient> callback, String transText, String category, boolean requiresInGame, boolean requiresInteracting ) {
-		super(transText, key, category);
+	public KeyBind( Key key, Consumer<MinecraftClient> callback, String transText, String category, boolean requiresInGame, boolean requiresInteracting ) {
+		super(transText, key.getCode(), category);
 		this.callback = callback;
-		this.key = key;
-		this.defaultKey = key;
+		this.key = key.getCode();
+		this.defaultKey = key.getCode();
 		this.translationText = new TranslatableText( transText );
 		this.category = category;
-		this.requiresInGame = requiresInGame;
-		this.requiresInteracting = requiresInteracting;
+		this.requiresInGame = requiresInGame;  // requires the game to not be paused
+		this.requiresInteracting = requiresInteracting;  // requires be in-game and not in a inventory
 
 		// taken from FAPI
 		Map<String, Integer> map = KeyBindingAccessor.fabric_getCategoryMap();
@@ -58,8 +58,12 @@ public class KeyBind extends KeyBinding {
 		return this.translationText;
 	}
 
-	public int getKey() {
+	public int getIntKey() {
 		return key;
+	}
+
+	public Key getKey() {
+		return new Key(this.key);
 	}
 
 	public Consumer<MinecraftClient> getCallback() {

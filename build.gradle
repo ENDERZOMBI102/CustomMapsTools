@@ -12,17 +12,25 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+	jcenter()
+	mavenCentral()
 	maven {
 		name = 'Ladysnake Libs'
 		url = 'https://dl.bintray.com/ladysnake/libs'
 	}
 	maven {
-		url = "https://dl.bintray.com/redstoneparadox/mods"
-	}
-	maven {
 		name = "BuildCraft"
 		url = "https://mod-buildcraft.com/maven"
 	}
+	maven {
+		name = "hubbajub"
+		url = "https://repo.repsy.io/mvn/px01tv/hubbajub/"
+	}
+	maven {
+		name = "AperLambda"
+		url = 'https://aperlambda.github.io/maven'
+	}
+	maven { url = "https://jitpack.io" }
 }
 
 minecraft {
@@ -35,16 +43,15 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
+	// Fabric API
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
-	implementation 'com.google.code.gson:gson:2.8.6'
+	// non-mod dependencies
+	implementation "com.google.code.gson:gson:${gson_version}"
 
 	// mod dependencies
 	// cloth config & autoconfig1u
-	modApi('me.shedaniel.cloth:config-2:4.8.2') {
+	modApi("me.shedaniel.cloth:config-2:${cloth_config_version}") {
 		exclude(group: 'net.fabricmc.fabric-api')
 	}
 	modApi('me.sargunvohra.mcmods:autoconfig1u:3.2.2') {
@@ -52,16 +59,18 @@ dependencies {
 	}
 	// cardinal components
 	// Replace modImplementation with modApi if you expose components in your own API
-	modImplementation 'io.github.onyxstudios:Cardinal-Components-API:2.7.1'
+	modImplementation "io.github.onyxstudios:Cardinal-Components-API:${cardinal_components_version}"
 
-	modImplementation 'io.github.prospector:modmenu:1.14.6+build.31'
+	modImplementation "io.github.prospector:modmenu:${modmenu_version}"
 
-	// OakTree (GUI lib)
-	modApi("io.github.redstoneparadox:OakTree:${project.oak_tree_version}") {
-		exclude group: 'net.fabricmc.fabric-api'
-	}
+	// network stack
+	modCompile "alexiil.mc.lib:libnetworkstack-base:${libnetworkstack_version}"
 
-	modCompile "alexiil.mc.lib:libnetworkstack-base:0.4.0"
+	// GUI
+	modImplementation "io.px:mcgui:${mcgui_version}"
+
+	// other
+
 
 }
 
