@@ -23,7 +23,7 @@
 			"com.enderzombi102.cmt.CustomMapsTools"
 		],
 		"client": [
-			"com.enderzombi102.cmt.CMTContent::registerClientThings"
+			"com.enderzombi102.cmt.CustomMapsTools"
 		],
 		"modmenu": [
 			"com.enderzombi102.cmt.config.ModMenu"

@@ -1,13 +1,10 @@
 package com.enderzombi102.cmt.command;
 
-import com.enderzombi102.cmt.CMTContent;
 import com.enderzombi102.cmt.gui.CustomGuiManager;
-import com.enderzombi102.cmt.zone.AbstractZone;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
 
 

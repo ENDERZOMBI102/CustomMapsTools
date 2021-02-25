@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "cmt:block/screen_block"
+		"all": "cmt:block/display_block"
 	}
 }

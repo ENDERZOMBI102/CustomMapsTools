@@ -25,7 +25,6 @@ public class CustomGuiManager {
 	@Environment(EnvType.CLIENT)
 	public static void onOpenScreen(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf buf, PacketSender sender) {
 		Identifier id = buf.readIdentifier();
-		UIView view = DocumentManager.INSTANCE.fetch(id);
 		client.openScreen( view );
 	}
 }
