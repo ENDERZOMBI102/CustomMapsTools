@@ -9,7 +9,6 @@ public interface WidgetBuilders {
 
 		static SpruceWidget create(JsonObject object) {
 			return null;
-			me.lambdaurora.spruceui.widget.option.
 		}
 
 	}
