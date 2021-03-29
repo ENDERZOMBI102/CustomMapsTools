@@ -3,7 +3,7 @@ package com.enderzombi102.cmt;
 import com.enderzombi102.cmt.command.OpenGuiCommand;
 import com.enderzombi102.cmt.command.ZoneCommand;
 import com.enderzombi102.cmt.config.ModConfig;
-import com.enderzombi102.cmt.gui.CustomGuiManager;
+import com.enderzombi102.cmt.gui.NetworkGuiManager;
 import com.enderzombi102.cmt.keybind.KeybindManager;
 import com.enderzombi102.cmt.network.NetworkingConstants;
 import com.enderzombi102.cmt.zone.ZoneManager;
@@ -49,7 +49,7 @@ public class CustomMapsTools implements ModInitializer, ClientModInitializer, Wo
 	public void onInitializeClient() {
 		CMTContent.registerClientThings();
 
-		ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.CUSTOM_GUI_PACKET_ID, CustomGuiManager::onOpenScreen );
+		ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.CUSTOM_GUI_PACKET_ID, NetworkGuiManager::onOpenScreen );
 	}
 
 	@Override

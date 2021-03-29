@@ -1,5 +1,7 @@
 package com.enderzombi102.cmt;
 
+import com.enderzombi102.cmt.exception.MissingKeyException;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.apache.commons.io.IOUtils;
@@ -13,7 +15,16 @@ import java.nio.ByteBuffer;
 
 public class Utils {
 
-	public static ByteBuffer readImageToBuffer(InputStream stream) throws IOException {
+	public static final boolean isKubeJsPresent = FabricLoader.getInstance().isModLoaded("kubejs");
+
+	public static <E> E checkMissingKey(E object, String message) throws MissingKeyException {
+		if ( object == null ) throw new MissingKeyException(message);
+		return object;
+	}
+
+
+	// useless methods?
+	private static ByteBuffer readImageToBuffer(InputStream stream) throws IOException {
 
 		BufferedImage bufferedImage = ImageIO.read(stream);
 		IOUtils.closeQuietly(stream);
@@ -28,7 +39,7 @@ public class Utils {
 		return bytebuffer;
 	}
 
-	public static BufferedImage resizeImage(BufferedImage src, int newPx) {
+	private static BufferedImage resizeImage(BufferedImage src, int newPx) {
 		// if the given image is already the requested dimensions, return it
 		if ( src.getHeight(null) == newPx && src.getWidth(null) == newPx ) return src;
 		// create new BufferedImage with the requested dimensions
@@ -44,7 +55,7 @@ public class Utils {
 		return img;
 	}
 
-	public static Image resizeImage(Image src, int newPx) {
+	private static Image resizeImage(Image src, int newPx) {
 		// if the given image is already the requested dimensions, return it
 		if ( src.getHeight(null) == newPx && src.getWidth(null) == newPx ) return src;
 		// scale the image and return it
@@ -52,7 +63,7 @@ public class Utils {
 	}
 
 
-	public static ByteBuffer toByteBuffer(BufferedImage src) {
+	private static ByteBuffer toByteBuffer(BufferedImage src) {
 		int[] aint = src.getRGB( 0, 0, src.getWidth(), src.getHeight(), null, 0, src.getWidth() );
 		// allocate the required space
 		ByteBuffer buf = ByteBuffer.allocate(4 * aint.length);
@@ -65,7 +76,7 @@ public class Utils {
 		return buf;
 	}
 
-	public static Vec3d vecFrom(BlockPos pos) {
+	private static Vec3d vecFrom(BlockPos pos) {
 		return new Vec3d( pos.getX(), pos.getY(), pos.getZ() );
 	}
 

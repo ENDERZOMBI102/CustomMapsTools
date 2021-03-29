@@ -1,7 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id 'maven-publish'
-	id "io.freefair.lombok" version "5.2.1"
+	id 'io.freefair.lombok' version '5.2.1'
 	id 'idea'
 }
 
@@ -21,21 +21,24 @@ repositories {
 	}
 	maven {
 		name = "BuildCraft"
-		url = "https://mod-buildcraft.com/maven"
+		url = 'https://mod-buildcraft.com/maven'
 	}
 	maven {
-		name = "hubbajub"
-		url = "https://repo.repsy.io/mvn/px01tv/hubbajub/"
-	}
-	maven {
-		name = "AperLambda"
+		name = 'AperLambda'
 		url = 'https://aperlambda.github.io/maven'
 	}
-	maven { url = "https://jitpack.io" }
+	maven {
+		name = ''
+		url 'https://www.cursemaven.com'
+		content {
+			includeGroup 'curse.maven'
+		}
+	}
+	maven { url 'https://jitpack.io' }
 }
 
 minecraft {
-	accessWidener "src/main/resources/emr.accesswidener"
+	accessWidener 'src/main/resources/emr.accesswidener'
 }
 
 dependencies {
@@ -49,13 +52,14 @@ dependencies {
 
 	// non-mod dependencies
 	implementation "com.google.code.gson:gson:${gson_version}"
+	implementation "blue.endless:jankson:${jankson_version}"
 
 	// mod dependencies
 	// cloth config & autoconfig1u
 	modApi("me.shedaniel.cloth:config-2:${cloth_config_version}") {
 		exclude(group: 'net.fabricmc.fabric-api')
 	}
-	modApi('me.sargunvohra.mcmods:autoconfig1u:3.2.2') {
+	modApi("me.sargunvohra.mcmods:autoconfig1u:${autoconfig_version}") {
 		exclude(group: 'net.fabricmc.fabric-api')
 	}
 	// cardinal components
@@ -68,7 +72,11 @@ dependencies {
 	modCompile "alexiil.mc.lib:libnetworkstack-base:${libnetworkstack_version}"
 
 	// GUI
-	modImplementation "io.px:mcgui:${mcgui_version}"
+	modImplementation "com.github.lambdaurora:spruceui:${spruceui_version}"
+
+	// KubeJS integration
+	modRuntime("curse.maven:kubejs-fabric-395864:${kubejs_file}")
+	modRuntime("curse.maven:rhino-416294:${rhino_file}")
 
 	// other
 

@@ -1,0 +1,26 @@
+{
+	name: 'Test Screen',  // required
+	isInventory: false, // default value
+	content: [  // all the screen's widgets
+		{
+			type: 'button',  // widget type
+			label: 'hello world!',  // widget label, if supported
+			x: 80,
+			y: 80,
+			onClick: {  // action when the user clicks, if supported
+				script: 'test:script/testScript.js',  // execute a script
+				functionName: 'btnClicked'  // only call this function from the specified script
+			}
+		},
+		{
+			type: 'text',
+			text: 'hello text world!',
+			x: 80,
+			y: 100,
+			onClick: {
+				script: 'test:script/testScript.js',
+				functionName: 'txtClicked'
+			}
+		}
+	]
+}
