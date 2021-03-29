@@ -1,11 +1,10 @@
 package com.enderzombi102.cmt;
 
+import com.enderzombi102.cmt.client.ReloadListener;
 import com.enderzombi102.cmt.command.OpenGuiCommand;
 import com.enderzombi102.cmt.command.ZoneCommand;
 import com.enderzombi102.cmt.config.ModConfig;
-import com.enderzombi102.cmt.gui.NetworkGuiManager;
 import com.enderzombi102.cmt.keybind.KeybindManager;
-import com.enderzombi102.cmt.network.NetworkingConstants;
 import com.enderzombi102.cmt.zone.ZoneManager;
 import dev.onyxstudios.cca.api.v3.level.LevelComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.level.LevelComponentInitializer;
@@ -16,13 +15,20 @@ import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.profiler.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @SuppressWarnings("UnstableApiUsage")
 public class CustomMapsTools implements ModInitializer, ClientModInitializer, WorldComponentInitializer, LevelComponentInitializer {
@@ -48,8 +54,7 @@ public class CustomMapsTools implements ModInitializer, ClientModInitializer, Wo
 	@Override
 	public void onInitializeClient() {
 		CMTContent.registerClientThings();
-
-		ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.CUSTOM_GUI_PACKET_ID, NetworkGuiManager::onOpenScreen );
+		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener( new ReloadListener() );
 	}
 
 	@Override

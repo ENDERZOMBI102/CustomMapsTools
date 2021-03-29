@@ -76,7 +76,7 @@ public class Utils {
 		return buf;
 	}
 
-	private static Vec3d vecFrom(BlockPos pos) {
+	public static Vec3d vecFrom(BlockPos pos) {
 		return new Vec3d( pos.getX(), pos.getY(), pos.getZ() );
 	}
 
