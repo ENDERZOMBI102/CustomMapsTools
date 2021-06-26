@@ -25,6 +25,7 @@ public abstract class WindowMixin {
 	@Inject(at = @At("HEAD"), method = "onWindowPosChanged", cancellable = true)
 	private void onWindowPosChanged(long window, int x, int y, CallbackInfo info) {
 		ActionResult result = ActionResult.PASS;
+		// TODO: EVENT MISSING?
 		if (result == ActionResult.FAIL) {
 			org.lwjgl.glfw.GLFW.glfwSetWindowPos(this.handle, this.getX(), this.getY() );
 			info.cancel();

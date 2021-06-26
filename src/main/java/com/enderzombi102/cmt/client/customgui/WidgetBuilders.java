@@ -1,7 +1,7 @@
 package com.enderzombi102.cmt.client.customgui;
 
 import blue.endless.jankson.JsonObject;
-import me.lambdaurora.spruceui.widget.SpruceWidget;
+import dev.lambdaurora.spruceui.widget.SpruceWidget;
 
 public interface WidgetBuilders {
 

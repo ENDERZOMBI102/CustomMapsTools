@@ -2,15 +2,16 @@
 	"required": true,
 	"minVersion": "0.8",
 	"package": "com.enderzombi102.cmt.mixins",
-	"compatibilityLevel": "JAVA_8",
+	"compatibilityLevel": "JAVA_16",
 	"mixins": [
 		"MinecraftDedicatedServerMixin",
-		"MinecraftServerMixin"
+		"MinecraftServerMixin",
+		"PlayerManagerMixin"
 	],
 	"client": [
-		"client.IntegratedServerMixin",
 		"client.CategoryEntryAccessor",
 		"client.ControlsListWidgetMixin",
+		"client.IntegratedServerMixin",
 		"client.KeyBindingEntryAccessor",
 		"client.KeyboardMixin",
 		"client.MinecraftClientMixin",

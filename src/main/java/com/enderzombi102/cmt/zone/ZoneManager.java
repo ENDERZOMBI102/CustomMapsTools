@@ -1,19 +1,20 @@
 package com.enderzombi102.cmt.zone;
 
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
 public class ZoneManager implements ZoneComponent {
 
 	private final ServerWorld world;
@@ -25,25 +26,26 @@ public class ZoneManager implements ZoneComponent {
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag tag) {
-		ListTag list = new ListTag();
+	public void writeToNbt(@NotNull NbtCompound tag) {
+		NbtList list = new NbtList();
 
 		for (int i = 0; i < this.zones.size(); i++ ) {
 			if ( this.zones.get(i).deleteOnExit ) continue;
-			CompoundTag compoundTag = new CompoundTag();
+			NbtCompound compoundTag = new NbtCompound();
 			this.zones.get(i).writeToNbt(compoundTag);
-			list.addTag(i, compoundTag);
+			list.addElement(i, compoundTag);
 		}
 
 		tag.put("zones", list);
 	}
 
 	@Override
-	public void readFromNbt(CompoundTag tag) {
+	@SuppressWarnings("ConstantConditions")
+	public void readFromNbt(NbtCompound tag) {
 		this.zones.clear();
-		for ( Tag ctag : ( (ListTag) tag.get("zones") ).toArray( new Tag[0] ) ) {
+		for ( NbtElement ctag : ( (NbtList) tag.get("zones") ).toArray( new NbtElement[0] ) ) {
 
-			CompoundTag compoundTag = (CompoundTag) ctag;
+			NbtCompound compoundTag = (NbtCompound) ctag;
 			AbstractZone<? extends Entity> zone;
 
 			switch ( compoundTag.getString("type") ) {

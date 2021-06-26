@@ -1,0 +1,16 @@
+[
+	{
+		name: "function test",
+		desc: "function keybind test",
+		defaultkey: "up",
+		category:  "Gameplay",
+		executes: "cmt:testfunc"
+	},
+	{
+		name: "command test",
+		desc: "command keybind test",
+		defaultkey: "down",
+		category:  "Gameplay",
+		executes: "say h pressed!"
+	}
+]

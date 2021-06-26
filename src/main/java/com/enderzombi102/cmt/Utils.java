@@ -28,15 +28,7 @@ public class Utils {
 
 		BufferedImage bufferedImage = ImageIO.read(stream);
 		IOUtils.closeQuietly(stream);
-		int[] aint = bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null, 0, bufferedImage.getWidth());
-		ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
-
-		for (int i : aint) {
-			bytebuffer.putInt(i << 8 | i >> 24 & 255);
-		}
-
-		bytebuffer.flip();
-		return bytebuffer;
+		return toByteBuffer(bufferedImage);
 	}
 
 	private static BufferedImage resizeImage(BufferedImage src, int newPx) {

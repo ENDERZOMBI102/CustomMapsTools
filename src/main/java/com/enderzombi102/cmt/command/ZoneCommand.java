@@ -29,6 +29,8 @@ import static net.minecraft.server.command.FunctionCommand.SUGGESTION_PROVIDER;
 public class ZoneCommand {
 
 	public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+
+
 		// inside command
 		dispatcher.register(
 				literal("inside")
@@ -91,11 +93,11 @@ public class ZoneCommand {
 										.then( argument("identifier", StringArgumentType.string() )
 												.then( argument("pos0", BlockPosArgumentType.blockPos() )
 														.then( argument("pos1", BlockPosArgumentType.blockPos() )
-																.then( argument("enterf", FunctionArgumentType.function() )
+																.then( argument("enterf", CommandFunctionArgumentType.commandFunction() )
 																		.suggests(SUGGESTION_PROVIDER)
-																		.then( argument("midf", FunctionArgumentType.function() )
+																		.then( argument("midf", CommandFunctionArgumentType.commandFunction() )
 																				.suggests(SUGGESTION_PROVIDER)
-																				.then( argument("leavef", FunctionArgumentType.function() )
+																				.then( argument("leavef", CommandFunctionArgumentType.commandFunction() )
 																						.suggests(SUGGESTION_PROVIDER)
 																						.executes(ZoneCommand::onAddFunction)
 																				)
@@ -207,6 +209,6 @@ public class ZoneCommand {
 	}
 
 	private static Identifier getFuncIdentifier(CommandContext<ServerCommandSource> ctx, String name) throws CommandSyntaxException {
-		return new ArrayList<>( FunctionArgumentType.getFunctions(ctx, name) ).get(0).getId();
+		return new ArrayList<>( CommandFunctionArgumentType.getFunctions(ctx, name) ).get(0).getId();
 	}
 }

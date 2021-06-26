@@ -1,6 +1,5 @@
 package com.enderzombi102.cmt.client;
 
-import lombok.SneakyThrows;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;

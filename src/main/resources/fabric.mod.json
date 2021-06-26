@@ -12,45 +12,37 @@
 		"sources": "https://github.com/ENDERZOMBI102/CustomMapsTools",
 		"issues": "https://github.com/ENDERZOMBI102/CustomMapsTools/issues"
 	},
-	"license": "Apache-2.0",
+	"license": "MIT",
 	"icon": "icon.png",
-	"accessWidener" : "emr.accesswidener",
+	"accessWidener" : "cmt.accesswidener",
 	"entrypoints": {
 		"main": [
 			"com.enderzombi102.cmt.CustomMapsTools"
 		],
-		"server": [
-			"com.enderzombi102.cmt.CustomMapsTools"
-		],
 		"client": [
-			"com.enderzombi102.cmt.CustomMapsTools"
+			"com.enderzombi102.cmt.client.CustomMapsToolsClient"
 		],
 		"modmenu": [
 			"com.enderzombi102.cmt.config.ModMenu"
 		],
 		"cardinal-components-world": [
 			"com.enderzombi102.cmt.CustomMapsTools"
-		],
-		"cardinal-components-level": [
-			"com.enderzombi102.cmt.CustomMapsTools"
 		]
 	},
 	"custom": {
 		"cardinal-components": [
-			"cmt:world_zone_manager",
-			"cmt:level_bind_manager"
+			"cmt:world_zone_manager"
 		]
 	},
 	"mixins": [
 		"cmt.mixins.json"
 	],
 	"depends": {
-		"cardinal-components": ">=2.7.1",
-		"cloth-config2": "4.8.2",
-		"autoconfig1u": "3.2.2",
-		"minecraft": "1.16.x"
+		"cardinal-components": ">=3.0.0",
+		"cloth-config2": "5.0.34",
+		"minecraft": ">=1.17"
 	},
 	"suggests": {
-		"dynamicsoundfilters": "*"
+		"modmenu": "*"
 	}
 }

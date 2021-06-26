@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
 public interface ZoneComponent extends ComponentV3, ServerTickingComponent {
 
 	void addZone(AbstractZone<? extends Entity> zone);

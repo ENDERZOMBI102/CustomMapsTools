@@ -3,12 +3,14 @@ package com.enderzombi102.cmt.keybind.client;
 import com.enderzombi102.cmt.mixins.client.KeyBindingEntryAccessor;
 import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.options.ControlsListWidget;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.gui.screen.option.ControlsListWidget;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -24,10 +26,6 @@ public class KeyBind extends KeyBinding {
 	private final Consumer<MinecraftClient> callback;
 	public final boolean requiresInGame;
 	public final boolean requiresInteracting;
-
-	public KeyBind( Key key, Consumer<MinecraftClient> callback ) {
-		this(key, callback, "placeholder", "placeholder", true, true);
-	}
 
 	public KeyBind( Key key, Consumer<MinecraftClient> callback, String transText, String category, boolean requiresInGame, boolean requiresInteracting ) {
 		super(transText, key.getCode(), category);
@@ -62,8 +60,11 @@ public class KeyBind extends KeyBinding {
 		return key;
 	}
 
-	public Key getKey() {
-		return new Key(this.key);
+	public @Nullable Key getKey() {
+		for ( Key key : Key.values() ) {
+			if ( key.getCode() == this.key ) return key;
+		}
+		return null;
 	}
 
 	public Consumer<MinecraftClient> getCallback() {

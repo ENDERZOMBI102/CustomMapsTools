@@ -4,10 +4,10 @@ import blue.endless.jankson.Jankson;
 import blue.endless.jankson.JsonArray;
 import blue.endless.jankson.JsonElement;
 import blue.endless.jankson.JsonObject;
-import blue.endless.jankson.impl.SyntaxError;
+import blue.endless.jankson.api.SyntaxError;
 import com.enderzombi102.cmt.Utils;
 import com.enderzombi102.cmt.exception.MissingKeyException;
-import me.lambdaurora.spruceui.screen.SpruceScreen;
+import dev.lambdaurora.spruceui.screen.SpruceScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.Resource;
 import net.minecraft.text.LiteralText;
@@ -26,7 +26,10 @@ public class CustomScreen extends SpruceScreen {
 	private CustomScreen(JsonObject object, String name) throws SyntaxError {
 		super( new LiteralText( name ) );
 		// get screen content
-		final JsonArray content = Utils.checkMissingKey( (JsonArray) object.get("content"), "content");
+		final JsonArray content = Utils.checkMissingKey(
+				(JsonArray) object.get("content"),
+				"content"
+		);
 		// cycle and create widgets
 		for ( JsonElement rawObj : content ) {
 			// obj check
@@ -35,12 +38,13 @@ public class CustomScreen extends SpruceScreen {
 			final JsonObject obj = (JsonObject) rawObj;
 			final String type = Utils.checkMissingKey( obj.get(String.class, "type"), "type" );
 			// widget!
+			// FIXME: THIS IS VERY DUMB, USE CUSTOM DESERIALIZER!
 			switch ( type ) {
 				case "button":
-					this.addChild( WidgetBuilders.ButtonBuilder.create( obj ) );
+//					this.addChild( WidgetBuilders.ButtonBuilder.create( obj ) );
 					break;
 				case "text":
-					this.addChild( WidgetBuilders.TextBuilder.create( obj ) );
+//					this.addChild( WidgetBuilders.TextBuilder.create( obj ) );
 					break;
 				default:
 					LOGGER.warn("Unknown widget type \"" + type + "\", ignoring");

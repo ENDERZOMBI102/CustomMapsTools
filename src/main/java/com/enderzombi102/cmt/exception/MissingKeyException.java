@@ -1,6 +1,6 @@
 package com.enderzombi102.cmt.exception;
 
-import blue.endless.jankson.impl.SyntaxError;
+import blue.endless.jankson.api.SyntaxError;
 
 public class MissingKeyException extends SyntaxError {
 

@@ -46,7 +46,7 @@ public class ZoneCreatorItem extends Item {
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		if ( world.isClient() ) return TypedActionResult.pass( user.getStackInHand(hand) );
 		if ( user.isSneaking() ) {
-			if ( type == ZoneTypes.lenght - 1) type = 0;
+			if ( type == ZoneTypes.length - 1) type = 0;
 			else type++;
 			user.sendMessage( new LiteralText("Zone type set to {}.".replace("{}", ZoneTypes.getType(this.type).toString() ) ), true);
 		}

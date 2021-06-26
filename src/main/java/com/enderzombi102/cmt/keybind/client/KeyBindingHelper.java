@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 public class KeyBindingHelper {
 
-	private static final ArrayList< KeyBind > keyCallbacks = new ArrayList<>();
+	public static final ArrayList< KeyBind > keyCallbacks = new ArrayList<>();
 	static final ArrayList<String> defaultCategories = new ArrayList<>();
 
 	public static ArrayList<KeyBind> getKeyCallbacks() {

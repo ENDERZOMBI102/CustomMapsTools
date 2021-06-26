@@ -1,22 +1,25 @@
 package com.enderzombi102.cmt.block.entity;
 
 import com.enderzombi102.cmt.CMTContent;
-import com.enderzombi102.cmt.block.DisplayBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+
+import java.util.Optional;
 
 public class DisplayBlockEntity extends BlockEntity {
 
 	private static final ItemStack DEFAULT_STACK = new ItemStack(Items.JUKEBOX, 1);
 	public ItemStack stack = DEFAULT_STACK;
 
-	public DisplayBlockEntity() {
-		super(CMTContent.displayBlockEntityType);
+	public DisplayBlockEntity(BlockPos pos, BlockState state) {
+		super(CMTContent.displayBlockEntityType, pos, state);
 	}
 
 	public ItemStack getItem() {
@@ -24,17 +27,19 @@ public class DisplayBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
+	public NbtCompound writeNbt(NbtCompound tag) {
+		super.writeNbt(tag);
 		tag.putString("item", Registry.ITEM.getId( this.stack.getItem() ).toString() );
-		return super.toTag(tag);
+		return tag;
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
-		super.fromTag(state, tag);
-		this.stack = new ItemStack( Registry.ITEM.get( new Identifier( tag.getString("item") ) ) );
-		if ( this.stack.getItem() == null ) {
-			this.stack = DEFAULT_STACK;
-		}
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
+		final Optional<Item> item = Registry.ITEM.getOrEmpty(
+				new Identifier( tag.getString("item") )
+		);
+		// set item
+		this.stack = item.isEmpty() ? DEFAULT_STACK : new ItemStack( item.get() );
 	}
 }

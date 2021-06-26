@@ -1,7 +1,7 @@
 package com.enderzombi102.cmt.zone;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
@@ -33,7 +33,7 @@ public abstract class AbstractZone<T extends Entity> {
 	}
 
 	// serialization
-	public AbstractZone(ServerWorld world, CompoundTag tag, Class<T> entityClass) {
+	public AbstractZone(ServerWorld world, NbtCompound tag, Class<T> entityClass) {
 		this.world = world;
 		this.server = world.getServer();
 		this.id = tag.getString("id");
@@ -43,7 +43,7 @@ public abstract class AbstractZone<T extends Entity> {
 		this.cachedBox = new Box(this.pos0, this.pos1);
 	}
 
-	public void tick() {
+	public final void tick() {
 		// get all players in the zone
 		List<T> entities = this.world.getEntitiesByClass(
 				this.entityClass,
@@ -87,7 +87,7 @@ public abstract class AbstractZone<T extends Entity> {
 	public abstract void onTick(T entity);
 
 	// serialization
-	public void writeToNbt(CompoundTag tag) {
+	public void writeToNbt(NbtCompound tag) {
 		tag.putString( "type", this.getClass().getSimpleName().toLowerCase() );
 		tag.putString( "id", this.id );
 		tag.putDouble( "x0", this.pos0.x );

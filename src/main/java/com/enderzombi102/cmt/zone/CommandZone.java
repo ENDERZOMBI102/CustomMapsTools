@@ -1,7 +1,7 @@
 package com.enderzombi102.cmt.zone;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 
@@ -19,7 +19,7 @@ public class CommandZone extends AbstractZone<PlayerEntity> {
 	}
 
 	// serialization
-	public CommandZone(ServerWorld world, CompoundTag tag) {
+	public CommandZone(ServerWorld world, NbtCompound tag) {
 		super(world, tag, PlayerEntity.class);
 		this.enterCommand = tag.getString("ecmd");
 		this.midCommand = tag.getString("mcmd");
@@ -52,7 +52,7 @@ public class CommandZone extends AbstractZone<PlayerEntity> {
 
 	// serialization
 	@Override
-	public void writeToNbt(CompoundTag tag) {
+	public void writeToNbt(NbtCompound tag) {
 		super.writeToNbt(tag);
 		tag.putString("ecmd", this.enterCommand);
 		tag.putString("mcmd", this.midCommand);

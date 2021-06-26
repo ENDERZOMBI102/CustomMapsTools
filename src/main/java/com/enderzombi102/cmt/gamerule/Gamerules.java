@@ -1,13 +1,9 @@
 package com.enderzombi102.cmt.gamerule;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 
-import javax.xml.soap.Text;
 
 public class Gamerules {
 

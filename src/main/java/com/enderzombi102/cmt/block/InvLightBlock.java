@@ -13,8 +13,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
@@ -63,6 +61,9 @@ public class InvLightBlock extends Block {
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if ( world.isClient() ) return ActionResult.SUCCESS;
 		int currentLevel = state.get(LIGHT_LEVEL);
+
+		// sneak: reduce light level
+		// normal: add 1 to light level
 		if (! player.isSneaking() ) {
 			if (currentLevel > 0) {
 				currentLevel = currentLevel - 1;
@@ -86,6 +87,7 @@ public class InvLightBlock extends Block {
 		PlayerEntity player = MinecraftClient.getInstance().player;
 		if ( player == null ) return;
 
+		// render "lightbulb" particle
 		if ( player.getMainHandStack().getItem().equals(CMTContent.invLightItem) ) {
 			int i = pos.getX(), j = pos.getY(), k = pos.getZ();
 			world.addParticle(

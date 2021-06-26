@@ -1,10 +1,8 @@
 package com.enderzombi102.cmt.particle;
 
 import com.enderzombi102.cmt.CMTContent;
-import com.enderzombi102.cmt.block.InvLightBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
