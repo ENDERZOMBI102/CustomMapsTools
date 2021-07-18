@@ -1,8 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.9-SNAPSHOT'
-	id 'com.github.ben-manes.versions' version '0.39.0'
+	id 'com.modrinth.minotaur' version '1.2.1'
 	id 'java'
-	id 'idea'
 }
 
 archivesBaseName = project.archives_base_name
@@ -84,4 +83,86 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
 	from 'LICENSE'
+}
+
+import com.modrinth.minotaur.TaskModrinthUpload
+import com.modrinth.minotaur.request.VersionType
+import static com.modrinth.minotaur.request.Dependency.DependencyType
+import java.nio.file.Files
+
+task publishModrinth (type: TaskModrinthUpload){ // Make sure it runs after build!
+	dependsOn build
+	onlyIf {
+		// Only attempt to run this task if the MODRINTH variable is set, otherwise SKIP it
+		System.getenv('MODRINTH')
+	}
+
+	// An environment property called MODRINTH that is your token
+	token = System.getenv('MODRINTH')
+	projectId = 'wF41lyyi'
+	// Will fail if Modrinth has this version already
+	versionNumber = project.version
+	// This is the java jar task.
+	// If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+	uploadFile = remapJar
+	// --- METADATA ---
+	// add loader
+	addLoader('fabric')
+	// add dependencies
+	Version ver = getVersionData()
+	versionName = ver.name
+	changelog = ver.changelog
+	versionType = VersionType.valueOf(ver.type)
+	// Add game versions
+	for ( String mcVer : ver.mcVersions ) {
+		addGameVersion(mcVer)
+	}
+
+}
+
+class Version {
+	String name, changelog = "", type = "RELEASE"
+	List<String> mcVersions
+}
+
+
+Version getVersionData() {
+	// version changelog data
+	var version = project.version
+	var verObj = new Version()
+	verObj.name = version
+	// working vars
+	var verFound = false
+	List<String> lines
+	// read file
+	try {
+		lines = Files.readAllLines(
+				java.nio.file.Path.of("C:/Users/Flavia/Documents/minecraft modding/CustomMapsToolsFAB/changelog")
+		)
+	} catch (IOException e) {
+		e.printStackTrace()
+		lines = new ArrayList<String>()
+	}
+	// get changelog and version name
+	for ( String line : lines ) {
+		if ( line.startsWith("version") ) {
+			verFound = line.replace("version ", "") == version
+		}
+		if ( line.startsWith("\t") && verFound ) {
+			// remove tab
+			line = line.replaceFirst("\t", "")
+			if ( line.startsWith("name: ") ) {
+				verObj.name = line.replaceFirst("name: ", "")
+			} else if ( line.startsWith("type: ") ) {
+				// can be alpha, beta or release
+				verObj.type = line.replaceFirst("type: ", "").toUpperCase()
+			} else if ( line.startsWith("mcversion: ") ) {
+				// split mc versions
+				verObj.mcVersions = ArrayList.of( line.replaceFirst("mcVersions: ", "").split(" ") )
+			} else {
+				verObj.changelog = verObj.changelog + line + "<br>"
+			}
+		}
+	}
+	return verObj
 }

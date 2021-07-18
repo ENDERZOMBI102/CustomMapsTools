@@ -1,0 +1,13 @@
+version 1.0.0
+	name: First version
+	type: release
+	mcVersions: 1.17.0 1.17.1
+	some
+	long changelog
+	text
+version 0.1.0
+	name: First-er Version!
+	type: beta
+	mcVersions: 1.17.0 1.17.1
+	some other
+	long changelog
