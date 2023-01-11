@@ -1,6 +1,6 @@
 package com.enderzombi102.cmt.mixins.client;
 
-import net.minecraft.client.util.Window;
+import com.mojang.blaze3d.glfw.Window;
 import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Window.class)
+@Mixin( Window.class)
 public abstract class WindowMixin {
 
 	@Shadow private int y;

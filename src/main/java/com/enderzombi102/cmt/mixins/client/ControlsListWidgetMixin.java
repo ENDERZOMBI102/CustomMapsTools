@@ -3,18 +3,18 @@ package com.enderzombi102.cmt.mixins.client;
 import com.enderzombi102.cmt.keybind.client.KeyBinding;
 import com.enderzombi102.cmt.keybind.client.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.option.ControlsListWidget;
-import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
+import net.minecraft.client.gui.screen.option.KeyBindsScreen;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.gui.widget.option.KeyBindListWidget;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
-@Mixin(ControlsListWidget.class)
+@Mixin( KeyBindListWidget.class )
 @SuppressWarnings("rawtypes")
 public abstract class ControlsListWidgetMixin extends ElementListWidget {
 
@@ -30,7 +30,7 @@ public abstract class ControlsListWidgetMixin extends ElementListWidget {
 
 	@SuppressWarnings("unchecked")
 	@Inject(at = @At("TAIL"), method = "<init>")
-	public void constructor(ControlsOptionsScreen parent, MinecraftClient client, CallbackInfo info) {
+	public void constructor( KeyBindsScreen parent, MinecraftClient client, CallbackInfo ci ) {
 		String lastCategory = "";
 		for ( KeyBinding bind : KeyBindingHelper.getKeyCallbacks() ) {
 			// if the keybind uses a default category, we need to find that category, and add the keybind before the next one
@@ -39,24 +39,23 @@ public abstract class ControlsListWidgetMixin extends ElementListWidget {
 				for ( Object rawentry : this.children() ) {
 					EntryListWidget.Entry entry = (EntryListWidget.Entry) rawentry;
 					// ignore non-category entries
-					if (! (entry instanceof ControlsListWidget.CategoryEntry) ) continue;
-					if ( ( (TranslatableText) ( (CategoryEntryAccessor) entry ).getCategory() ).getKey().equals( bind.getCategory() ) ) {
+					if (! ( entry instanceof KeyBindListWidget.CategoryEntry ) )
+						continue;
+
+					if ( ( ( (CategoryEntryAccessor) entry ).getCategory().equals( Text.translatable( bind.getCategory() ) ) ) )
 						catFound = true;
-					} else if (catFound) {
-						this.children().add(
-							this.children().indexOf(entry),
-							bind.getEntry( (ControlsListWidget)(Object) this)
-						);
+					else if (catFound) {
+						this.children().add( this.children().indexOf(entry), bind.getEntry( (KeyBindListWidget)(Object) this) );
 						break;
 					}
 				}
 			} else {
 				// create new category and add the keybind
 				if (! bind.getCategory().equals(lastCategory) ) {
-					this.addEntry( CategoryEntryAccessor.invokeInit( (ControlsListWidget)(Object) this, new TranslatableText( bind.getCategory() ) ) );
+					this.addEntry( CategoryEntryAccessor.invokeInit( (KeyBindListWidget) (Object) this, Text.translatable( bind.getCategory() ) ) );
 					lastCategory =bind.getCategory();
 				}
-				this.addEntry( bind.getEntry( (ControlsListWidget)(Object) this) );
+				this.addEntry( bind.getEntry( (KeyBindListWidget) (Object) this ) );
 			}
 
 		}

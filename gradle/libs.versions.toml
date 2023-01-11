@@ -1,8 +1,8 @@
 [versions]
     minecraft = '1.19.3'
     mappings = '16'
-	loader = '0.17.1'
-	qfapi = '4.0.0-beta.7+0.59.0-1.19.2'
+	loader = '0.18.1-beta.27'
+	qfapi = '5.0.0-alpha.9+0.72.0-1.19.3'
 	annotations = '23.0.0'
 	modmenu = '4.0.6'
     cca = '5.1.0'
@@ -28,6 +28,6 @@
 
 [bundles]
 	implementation = [ 'annotations', 'jankson' ]
-	modImplementation = [ 'loader', 'qfapi', 'modmenu', 'cca', 'spruceui', 'kubejs' ]
+	modImplementation = [ 'loader', 'qfapi', 'modmenu', 'cca', 'spruceui', 'kubejs', 'owolib' ]
 	include = [ 'cca', 'spruceui', 'sentinel' ]
 	annotationProc = [ 'owolib' ]

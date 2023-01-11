@@ -2,9 +2,9 @@ package com.enderzombi102.cmt.mixins.client;
 
 import com.enderzombi102.cmt.keybind.client.KeyBinding;
 import com.enderzombi102.cmt.keybind.client.KeyBindingHelper;
+import com.mojang.blaze3d.platform.InputUtil;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

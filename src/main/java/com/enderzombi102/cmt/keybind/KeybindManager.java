@@ -17,7 +17,7 @@ public class KeybindManager {
 
 			@Override
 			public void accept(MinecraftClient minecraftClient) {
-				executor.Execute(minecraftClient.player);
+				executor.execute( minecraftClient.player );
 			}
 		};
 

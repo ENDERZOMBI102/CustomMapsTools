@@ -1,7 +1,6 @@
 package com.enderzombi102.cmt.registry
 
 import com.enderzombi102.cmt.Const.toId
-import com.enderzombi102.cmt.CustomMapsTools
 import com.enderzombi102.cmt.CustomMapsTools.Companion.LOGGER
 import com.enderzombi102.cmt.block.DisplayBlock
 import com.enderzombi102.cmt.block.InvLightBlock

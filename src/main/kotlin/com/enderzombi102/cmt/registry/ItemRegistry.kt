@@ -28,5 +28,5 @@ object ItemRegistry {
 		ITEMS.getOrDefault( itemId, Items.AIR )
 
 	private fun settings(): QuiltItemSettings =
-		QuiltItemSettings().group( CustomMapsTools.ITEM_GROUP )
+		QuiltItemSettings()
 }

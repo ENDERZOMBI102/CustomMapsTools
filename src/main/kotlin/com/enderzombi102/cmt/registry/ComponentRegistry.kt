@@ -1,6 +1,5 @@
 package com.enderzombi102.cmt.registry
 
-import com.enderzombi102.cmt.CMTContent
 import com.enderzombi102.cmt.Const.toId
 import com.enderzombi102.cmt.keybind.KeybindComponent
 import com.enderzombi102.cmt.zone.ZoneComponent
@@ -11,7 +10,8 @@ import dev.onyxstudios.cca.api.v3.world.WorldComponentFactoryRegistry
 import dev.onyxstudios.cca.api.v3.world.WorldComponentInitializer
 
 object ComponentRegistry {
-	val zoneComponentKey: ComponentKey<ZoneComponent> =
+	@JvmField
+	val ZONE_COMPONENT_KEY: ComponentKey<ZoneComponent> =
 		ComponentRegistry.getOrCreate( "world_zone_manager".toId(), ZoneComponent::class.java )
 
 	val bindComponentKey: ComponentKey<KeybindComponent> =
@@ -19,7 +19,7 @@ object ComponentRegistry {
 
 	class WorldEntrypoint : WorldComponentInitializer {
 		override fun registerWorldComponentFactories( registry: WorldComponentFactoryRegistry ) {
-			registry.register( CMTContent.ZONE_COMP_KEY, ::ZoneManager )
+			registry.register( ZONE_COMPONENT_KEY, ::ZoneManager)
 		}
 	}
 }

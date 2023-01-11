@@ -1,7 +1,7 @@
 package com.enderzombi102.cmt.item
 
-import com.enderzombi102.cmt.CMTContent
 import com.enderzombi102.cmt.Utils
+import com.enderzombi102.cmt.registry.ComponentRegistry
 import com.enderzombi102.cmt.zone.*
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.Entity
@@ -21,7 +21,8 @@ class ZoneCreatorItem( settings: Settings ) : Item( settings ) {
 	private var pos0: BlockPos? = null
 	private var pos1: BlockPos? = null
 	private var type = 0
-	private val data: ZoneActionData = ZoneActionData()
+	private val data: ZoneActionData =
+		ZoneActionData()
 	override fun appendTooltip( stack: ItemStack, world: World?, tooltip: MutableList<Text>, ctx: TooltipContext ) {
 		if ( world == null )
 			return
@@ -58,25 +59,25 @@ class ZoneCreatorItem( settings: Settings ) : Item( settings ) {
 	}
 
 	private fun createZone( ctx: ItemUsageContext ) {
-		var zone: AbstractZone<out Entity?>? = null
-		val mgr: ZoneComponent = CMTContent.ZONE_COMP_KEY.get(ctx.world)
+		var zone: AbstractZone<out Entity>? = null
+		val mgr: ZoneComponent = ComponentRegistry.ZONE_COMPONENT_KEY.get( ctx.world )
 		if (type == 0) {
 			zone = CommandZone(
 				ctx.world as ServerWorld,
-				Utils.vecFrom(pos0),
-				Utils.vecFrom(pos1),
+				Utils.vecFrom(pos0!!),
+				Utils.vecFrom(pos1!!),
 				mgr.randomId,
 				data
 			)
 		} else if (type == 1) {
 			zone = FunctionZone(
 				ctx.world as ServerWorld,
-				Utils.vecFrom(pos0),
-				Utils.vecFrom(pos1),
+				Utils.vecFrom(pos0!!),
+				Utils.vecFrom(pos1!!),
 				mgr.randomId,
 				data
 			)
 		}
-		mgr.addZone(zone)
+		mgr.addZone(zone!!)
 	}
 }

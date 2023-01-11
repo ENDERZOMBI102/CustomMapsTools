@@ -7,6 +7,7 @@ plugins {
 repositories {
 	mavenCentral()
 	maven( "https://maven.gegy.dev" )
+	maven( "https://maven.wispforest.io" )
 	maven( "https://maven.architectury.dev" )
 	maven( "https://maven.saps.dev/minecraft" )
 	maven( "https://aperlambda.github.io/maven" )
@@ -21,7 +22,7 @@ loom {
 	runtimeOnlyLog4j.set( true )
 	runConfigs["client"].isIdeConfigGenerated = true
 	runConfigs["server"].isIdeConfigGenerated = true
-//	accessWidenerPath.set( file( "src/main/resources/cmt.accesswidener" ) )
+	accessWidenerPath.set( file( "src/main/resources/cmt.accesswidener" ) )
 }
 
 dependencies {
@@ -57,7 +58,7 @@ tasks.withType<ProcessResources> {
 				{ "id": "quilt_loader", "versions": "${libs.versions.loader.get()}" },
 				{ "id": "quilt_base", "versions": "*" },
 				{ "id": "minecraft", "versions": ">=${libs.versions.minecraft.get()}" },
-				{ "id": "java", "versions": ">=17" }""".trimIndent()
+				{ "id": "java", "versions": ">=17" }"""
         )
         filter { it.substringBefore("///") }
     }

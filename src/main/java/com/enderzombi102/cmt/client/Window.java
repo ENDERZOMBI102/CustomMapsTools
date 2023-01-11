@@ -4,8 +4,6 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
-import java.io.IOException;
-
 public class Window {
 
 	// FOR THE CUSTOM WINDOW TITLE ANC ICONS, LOOK AT THIS!
@@ -14,26 +12,22 @@ public class Window {
 	public static final String DEFAULT_TITLE = "Minecraft " + SharedConstants.getGameVersion().getName();
 	public static String windowTitle = DEFAULT_TITLE;
 
-	public static void setTitle(String title) {
+	public static void setTitle( String title ) {
 		windowTitle = title;
-		MinecraftClient.getInstance().getWindow().setTitle(title);
+		MinecraftClient.getInstance().getWindow().setTitle( title );
 	}
 
 	public static String getTitle() {
 		return windowTitle;
 	}
 
-	public static void setIcon(String iconBasePath) {
-		final MinecraftClient mcc = MinecraftClient.getInstance();
-		Identifier icon16 = new Identifier(iconBasePath + "16.png");
-		Identifier icon32 = new Identifier(iconBasePath + "32.png");
-		try {
-			mcc.getWindow().setIcon(
-					mcc.getResourceManager().getResource(icon16).getInputStream(),
-					mcc.getResourceManager().getResource(icon32).getInputStream()
-			);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void setIcon( String iconBasePath ) {
+		var mcc = MinecraftClient.getInstance();
+		var icon16 = new Identifier( iconBasePath + "16.png" );
+		var icon32 = new Identifier( iconBasePath + "32.png" );
+		mcc.getWindow().setIcon(
+			() -> mcc.getResourceManager().getResource( icon16 ).orElseThrow().open(),
+			() -> mcc.getResourceManager().getResource( icon32 ).orElseThrow().open()
+		);
 	}
 }
