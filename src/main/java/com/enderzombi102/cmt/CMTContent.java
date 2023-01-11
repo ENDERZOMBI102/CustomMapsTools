@@ -13,7 +13,6 @@ import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.block.Block;
@@ -21,8 +20,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static com.enderzombi102.cmt.CustomMapsTools.*;
 
@@ -32,8 +29,8 @@ public class CMTContent {
 	public static Block invLightBlock = new InvLightBlock();
 	public static Block displayBlock = new DisplayBlock();
 	// items
-	public static Item invLightItem = new BlockItem(invLightBlock, new Item.Settings().group(CMT_GROUP) );
-	public static Item displayBlockItem = new BlockItem(displayBlock, new Item.Settings().group(CMT_GROUP) );
+	public static Item invLightItem = new BlockItem(invLightBlock, new Item.Settings().group( ITEM_GROUP ) );
+	public static Item displayBlockItem = new BlockItem(displayBlock, new Item.Settings().group( ITEM_GROUP ) );
 	public static Item zoneCreatorItem = new ZoneCreatorItem();
 	// particles
 	public static DefaultParticleType invLightParticle;

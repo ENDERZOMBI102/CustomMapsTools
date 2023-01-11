@@ -8,33 +8,33 @@ import java.util.function.Consumer;
 
 public class KeyBindingHelper {
 
-	public static final ArrayList< KeyBind > keyCallbacks = new ArrayList<>();
+	public static final ArrayList<KeyBinding> keyCallbacks = new ArrayList<>();
 	static final ArrayList<String> defaultCategories = new ArrayList<>();
 
-	public static ArrayList<KeyBind> getKeyCallbacks() {
+	public static ArrayList<KeyBinding> getKeyCallbacks() {
 		return keyCallbacks;
 	}
 
-	public static KeyBind makeKeybind(Key key, Consumer<MinecraftClient> callback, String transText, String category, Boolean requiresInGame, Boolean requiresInteracting ) {
-		KeyBind bind = new KeyBind(key, callback, transText, category, requiresInGame, requiresInteracting );
+	public static KeyBinding makeKeybind(Key key, Consumer<MinecraftClient> callback, String transText, String category, Boolean requiresInGame, Boolean requiresInteracting ) {
+		KeyBinding bind = new KeyBinding(key, callback, transText, category, requiresInGame, requiresInteracting );
 		keyCallbacks.add( bind );
 		return bind;
 	}
 
-	public static boolean removeKeybind(KeyBind keyBind) {
-		return keyCallbacks.remove( keyBind );
+	public static boolean removeKeybind(KeyBinding keyBinding) {
+		return keyCallbacks.remove(keyBinding);
 	}
 
-	public static @Nullable KeyBind getKeybind(Consumer<MinecraftClient> func) {
-		for (KeyBind bind : keyCallbacks ) {
+	public static @Nullable KeyBinding getKeybind(Consumer<MinecraftClient> func) {
+		for (KeyBinding bind : keyCallbacks ) {
 			if (bind.getCallback() == func) return bind;
 		}
 		return null;
 	}
 
-	public static ArrayList<KeyBind> getKeybindsWithKey(Key key) {
-		ArrayList<KeyBind> toReturn = new ArrayList<>();
-		for (KeyBind bind : keyCallbacks ) {
+	public static ArrayList<KeyBinding> getKeybindsWithKey(Key key) {
+		ArrayList<KeyBinding> toReturn = new ArrayList<>();
+		for (KeyBinding bind : keyCallbacks ) {
 			if ( bind.getKey() == key ) toReturn.add(bind);
 		}
 		return toReturn;

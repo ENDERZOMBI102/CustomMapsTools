@@ -1,0 +1,47 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "${group}",
+		"id": "cmt",
+		"version": "${version}",
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"metadata": {
+			"name": "Custom Maps Tools",
+			"description": "${description}",
+			"contributors": {
+				"ENDERZOMBI102": "Owner"
+			},
+			"contact": {
+				"sources": "${repo_url}",
+				"issues": "${repo_url}/issues"
+			},
+			"license": "MIT",
+			"icon": "assets/cmt/icon.png"
+		},
+		"depends": [ /// ${dependencies}
+		],
+		"entrypoints": {
+            "init": [
+                "com.enderzombi102.cmt.CustomMapsTools"
+            ],
+            "client_init": [
+                "com.enderzombi102.cmt.CustomMapsToolsClient"
+            ],
+            "modmenu": [
+                "com.enderzombi102.cmt.config.ModMenu"
+            ],
+            "cardinal-components-world": [
+                "com.enderzombi102.cmt.CustomMapsTools"
+            ]
+		}
+	},
+	"minecraft": {
+		"environment": "*"
+	},
+	"mixin": [
+		"cmt.mixins.json"
+	],
+    "cardinal-components": [
+        "cmt:world_zone_manager"
+    ]
+}

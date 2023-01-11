@@ -6,16 +6,17 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.function.CommandFunction;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class Executor {
+	private final @NotNull MinecraftServer server;
+	private final @Nullable String command;
+	private final @Nullable CommandFunction function;
 
-	private final MinecraftServer server;
-	private final String command;
-	private final CommandFunction function;
-
-	public Executor(MinecraftServer server, String executes) {
+	public Executor( @NotNull MinecraftServer server, @NotNull String executes ) {
 		this.server = server;
 		Optional<CommandFunction> func = this.server.getCommandFunctionManager().getFunction( new Identifier(executes) );
 		if ( func.isPresent() ) {
@@ -44,7 +45,7 @@ public class Executor {
 	private ServerCommandSource getSource(Entity entity) {
 		return this.server.getCommandSource()
 				.withEntity(entity)
-				.withWorld( (ServerWorld) entity.getEntityWorld() )
+				.withWorld( (ServerWorld) entity.getCommandSenderWorld() )
 				.withPosition( entity.getPos() )
 				.withRotation( entity.getRotationClient() );
 	}
