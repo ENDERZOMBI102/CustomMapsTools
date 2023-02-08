@@ -1,26 +1,32 @@
 [versions]
-    minecraft = '1.19.3'
-    mappings = '16'
-	loader = '0.18.1-beta.27'
-	qfapi = '5.0.0-alpha.9+0.72.0-1.19.3'
+    minecraft = '1.19.2'
+    mappings = '21'
+	loader = '0.18.1-beta.72'
+	qfapi = '4.0.0-beta.27+0.73.0-1.19.2'
+	# non-mod
 	annotations = '23.0.0'
-	modmenu = '4.0.6'
-    cca = '5.1.0'
-    spruceui = '4.1.0+1.19.3'
-    kubejs = '1902.6.0-build.138'
-    owolib = '0.9.3+1.19'
-    jankson = '1.2.1'
+	jankson = '1.2.1'
+	# mods
+	graphlib = '0.3.6+1.19.2'      # https://kneelawk.com/maven#com/kneelawk/graphlib
+	modmenu = '4.1.2'              # https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu
+    cca = '5.0.2'                  # https://github.com/OnyxStudios/Cardinal-Components-API/releases
+    spruceui = '4.1.0+1.19.2'      # https://maven.gegy.dev/releases/dev/lambdaurora/spruceui
+    kubejs = '1902.6.0-build.142'  # https://maven.saps.dev/#/releases/dev/latvian/mods/kubejs-fabric
+    owolib = '0.9.3+1.19'          # https://maven.wispforest.io/io/wispforest/owo-lib
 
 
 [libraries]
 	loader = { module = 'org.quiltmc:quilt-loader', version.ref = 'loader' }
 	qfapi = { module = 'org.quiltmc.quilted-fabric-api:quilted-fabric-api', version.ref = 'qfapi' }
+	# non-mod
 	annotations = { module = 'org.jetbrains:annotations', version.ref = 'annotations' }
+	jankson = { module = 'blue.endless:jankson', version.ref = 'jankson' }
+	# mods
+	graphlib = { module = 'com.kneelawk:graphlib', version.ref = 'graphlib' }
 	modmenu = { module = 'com.terraformersmc:modmenu', version.ref = 'modmenu' }
 	cca = { module = 'dev.onyxstudios.cardinal-components-api:cardinal-components-api', version.ref = 'cca' }
 	spruceui = { module = 'dev.lambdaurora:spruceui', version.ref = 'spruceui' }
 	owolib = { module = 'io.wispforest:owo-lib', version.ref = 'owolib' }
-	jankson = { module = 'blue.endless:jankson', version.ref = 'jankson' }
 	sentinel = { module = 'io.wispforest:owo-sentinel', version.ref = 'owolib' }
     # integrations
     kubejs = { module = 'dev.latvian.mods:kubejs-fabric', version.ref = 'kubejs' }
@@ -28,6 +34,6 @@
 
 [bundles]
 	implementation = [ 'annotations', 'jankson' ]
-	modImplementation = [ 'loader', 'qfapi', 'modmenu', 'cca', 'spruceui', 'kubejs', 'owolib' ]
-	include = [ 'cca', 'spruceui', 'sentinel' ]
+	modImplementation = [ 'loader', 'qfapi', 'modmenu', 'cca', 'spruceui', 'kubejs', 'owolib', 'graphlib' ]
+	include = [ 'cca', 'spruceui', 'sentinel', 'graphlib' ]
 	annotationProc = [ 'owolib' ]

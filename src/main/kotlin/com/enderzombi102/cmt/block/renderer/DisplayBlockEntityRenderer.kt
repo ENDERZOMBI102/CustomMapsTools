@@ -9,9 +9,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory.Context
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.data.client.model.VariantSettings.Rotation
-import net.minecraft.util.math.Direction
-import org.joml.Vector3f
+import net.minecraft.util.math.Vec3f
 import kotlin.math.sin
 
 class DisplayBlockEntityRenderer( ctx: Context ) : BlockEntityRenderer<DisplayBlockEntity> {
@@ -33,8 +31,7 @@ class DisplayBlockEntityRenderer( ctx: Context ) : BlockEntityRenderer<DisplayBl
 		matrices.translate(0.5, 1.25 + offset, 0.5)
 
 		// Rotate the item
-		// TODO: Is this correct?
-		matrices.multiply( Direction.UP.rotationQuaternion.rotateY( ( blockEntity.world!!.time + tickDelta ) * 4 ) )
+		matrices.multiply( 	Vec3f.POSITIVE_Y.getDegreesQuaternion( (blockEntity.world!!.time + tickDelta) * 4 ) )
 
 		val lightAbove = WorldRenderer.getLightmapCoordinates( blockEntity.world, blockEntity.pos.up() )
 		MinecraftClient.getInstance().itemRenderer.renderItem(

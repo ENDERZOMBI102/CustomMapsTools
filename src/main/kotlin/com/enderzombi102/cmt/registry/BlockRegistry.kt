@@ -6,8 +6,7 @@ import com.enderzombi102.cmt.block.DisplayBlock
 import com.enderzombi102.cmt.block.InvLightBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
+import net.minecraft.util.registry.Registry
 
 object BlockRegistry {
 	private val BLOCKS: Map<String, Block> = mapOf(
@@ -18,7 +17,7 @@ object BlockRegistry {
 	fun register() {
 		LOGGER.info("Registering blocks..")
 		for ( ( key, value ) in BLOCKS )
-			Registry.register( Registries.BLOCK, key.toId(), value )
+			Registry.register( Registry.BLOCK, key.toId(), value )
 	}
 
 	operator fun get( blockId: String ): Block =

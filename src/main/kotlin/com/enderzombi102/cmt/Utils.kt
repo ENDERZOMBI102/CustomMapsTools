@@ -1,6 +1,5 @@
 package com.enderzombi102.cmt
 
-import com.enderzombi102.cmt.exception.MissingKeyException
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import org.apache.commons.io.IOUtils
@@ -14,14 +13,6 @@ import javax.imageio.ImageIO
 
 object Utils {
 	val isKubeJsPresent = QuiltLoader.isModLoaded( "kubejs" )
-
-	@JvmStatic
-	@Throws(MissingKeyException::class)
-	fun <E> checkMissingKey( obj: E?, message: String ): E {
-		if ( obj == null )
-			throw MissingKeyException( message )
-		return obj
-	}
 
 	// useless methods?
 	@Throws(IOException::class)

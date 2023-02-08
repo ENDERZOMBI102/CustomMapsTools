@@ -1,38 +1,29 @@
-package com.enderzombi102.cmt.keybind;
+package com.enderzombi102.cmt.keybind
 
-import com.enderzombi102.cmt.command.Executor;
-import com.enderzombi102.cmt.keybind.client.Key;
-import com.enderzombi102.cmt.keybind.client.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
+import com.enderzombi102.cmt.keybind.client.Key
+import com.enderzombi102.cmt.keybind.client.KeyBindingHelper
+import net.minecraft.client.MinecraftClient
+import java.util.function.Consumer
 
-import java.util.function.Consumer;
-
-public class KeybindManager {
-
-	public static void createBind(String key, String category, String name, String executes) {
-
-		Consumer<MinecraftClient> consumer = new Consumer<>() {
-
-			public final Executor executor = new Executor(null, executes);
-
-			@Override
-			public void accept(MinecraftClient minecraftClient) {
-				executor.execute( minecraftClient.player );
+object KeybindManager {
+	fun createBind(key: String, category: String, name: String, executes: String?) {
+		val consumer: Consumer<MinecraftClient> = object : Consumer<MinecraftClient> {
+			val executor = null // Executor( null, executes!! )
+			override fun accept(minecraftClient: MinecraftClient) {
+//				executor.execute(minecraftClient.player!!)
 			}
-		};
-
+		}
 		KeyBindingHelper.makeKeybind(
-				Key.findKey(key),
-				consumer,
-				name,
-				category,
-				true,
-				true
-		);
+			Key.findKey(key)!!,
+			consumer,
+			name,
+			category,
+			true,
+			true
+		)
 	}
 
-	public static void clearKeybinds() {
-		KeyBindingHelper.keyCallbacks.clear();
+	fun clearKeybinds() {
+		KeyBindingHelper.keyCallbacks.clear()
 	}
-
 }

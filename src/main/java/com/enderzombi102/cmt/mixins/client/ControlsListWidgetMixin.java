@@ -32,7 +32,7 @@ public abstract class ControlsListWidgetMixin extends ElementListWidget {
 	@Inject(at = @At("TAIL"), method = "<init>")
 	public void constructor( KeyBindsScreen parent, MinecraftClient client, CallbackInfo ci ) {
 		String lastCategory = "";
-		for ( KeyBinding bind : KeyBindingHelper.getKeyCallbacks() ) {
+		for ( KeyBinding bind : KeyBindingHelper.keyCallbacks ) {
 			// if the keybind uses a default category, we need to find that category, and add the keybind before the next one
 			if ( bind.isUsingDefaultCategories() ) {
 				boolean catFound = false;

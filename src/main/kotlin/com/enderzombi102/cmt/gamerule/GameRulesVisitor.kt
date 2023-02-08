@@ -1,10 +1,13 @@
-package com.enderzombi102.cmt.gamerule;
+package com.enderzombi102.cmt.gamerule
 
-import net.minecraft.world.GameRules;
+import net.minecraft.world.GameRules
 
-public interface GameruleVisitor extends GameRules.Visitor {
+interface GameRulesVisitor : GameRules.Visitor {
+	fun visitString( key: GameRules.Key<TextGamerule>, type: GameRules.Type<TextGamerule> ) {}
 
-	static void visitString( GameRules.Visitor visitor, GameRules.Key<TextGamerule> textGameruleKey, GameRules.Type<TextGamerule> textGameruleType ) { }
+	companion object {
+		fun visitString( visitor: GameRules.Visitor, key: GameRules.Key<TextGamerule>, type: GameRules.Type<TextGamerule> ) {
 
-	default void visitString( GameRules.Key<TextGamerule> key, GameRules.Type<TextGamerule> type ) { }
+		}
+	}
 }

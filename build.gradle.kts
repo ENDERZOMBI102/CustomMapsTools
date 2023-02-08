@@ -7,6 +7,7 @@ plugins {
 repositories {
 	mavenCentral()
 	maven( "https://maven.gegy.dev" )
+	maven( "https://kneelawk.com/maven" )
 	maven( "https://maven.wispforest.io" )
 	maven( "https://maven.architectury.dev" )
 	maven( "https://maven.saps.dev/minecraft" )
@@ -14,8 +15,6 @@ repositories {
 	maven( "https://repsy.io/mvn/enderzombi102/mc" )
 	maven( "https://maven.terraformersmc.com/releases" )
 	maven( "https://ladysnake.jfrog.io/artifactory/mods" )
-	maven( "https://maven.quiltmc.org/repository/release" )
-	maven( "https://maven.quiltmc.org/repository/snapshot" )
 }
 
 loom {
@@ -26,8 +25,10 @@ loom {
 }
 
 dependencies {
-    minecraft( "com.mojang:minecraft:1.19.3" )
-    mappings( "org.quiltmc:quilt-mappings:1.19.3+build.16:intermediary-v2" )
+	val minecraft = libs.versions.minecraft.get()
+	val mappings = libs.versions.mappings.get()
+    "minecraft"( "com.mojang:minecraft:$minecraft" )
+    "mappings"( "org.quiltmc:quilt-mappings:$minecraft+build.$mappings:intermediary-v2" )
 
 	include( libs.bundles.implementation )
     implementation( libs.bundles.implementation )

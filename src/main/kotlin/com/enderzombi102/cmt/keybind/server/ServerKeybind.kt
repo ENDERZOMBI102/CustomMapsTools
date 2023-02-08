@@ -1,21 +1,10 @@
-package com.enderzombi102.cmt.keybind.server;
+package com.enderzombi102.cmt.keybind.server
 
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity
+import java.util.function.Consumer
 
-import java.util.function.Consumer;
-
-public class ServerKeybind {
-
-	public Consumer<ServerPlayerEntity> callback;
-
-	public ServerKeybind(Consumer<ServerPlayerEntity> callback) {
-		this.callback = callback;
+class ServerKeybind(var callback: Consumer<ServerPlayerEntity>) {
+	fun onPressed(player: ServerPlayerEntity) {
+		callback.accept(player)
 	}
-
-	public void onPressed(ServerPlayerEntity player) {
-		this.callback.accept(player);
-	}
-
-
-
 }

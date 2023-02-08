@@ -7,7 +7,7 @@ import net.minecraft.server.function.CommandFunction
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 
-class Executor(private val server: MinecraftServer, executes: String) {
+class Executor( private val server: MinecraftServer, executes: String ) {
 	private var command: String? = null
 	private var function: CommandFunction? = null
 

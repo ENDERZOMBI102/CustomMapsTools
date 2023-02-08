@@ -21,7 +21,7 @@ public class KeyboardMixin {
 			if ( mc.world != null) {
 
 				// cycle in our keys
-				for (KeyBinding bind : KeyBindingHelper.getKeyCallbacks() ) {
+				for (KeyBinding bind : KeyBindingHelper.keyCallbacks ) {
 					// check if its one of our keys
 					if ( bind.getIntKey() == key && InputUtil.isKeyPressed( mc.getWindow().getHandle(), bind.getIntKey() ) ) {
 
@@ -30,7 +30,7 @@ public class KeyboardMixin {
 						else if ( bind.requiresInteracting && mc.currentScreen != null ) continue;
 
 						// all good, execute
-						bind.getCallback().accept( mc );
+						bind.callback.accept( mc );
 					}
 				}
 

@@ -1,14 +1,12 @@
 package com.enderzombi102.cmt.registry
 
 import com.enderzombi102.cmt.Const.toId
-import com.enderzombi102.cmt.CustomMapsTools
 import com.enderzombi102.cmt.CustomMapsTools.Companion.LOGGER
 import com.enderzombi102.cmt.item.ZoneCreatorItem
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.Items
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
+import net.minecraft.util.registry.Registry
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings
 
 object ItemRegistry {
@@ -21,7 +19,7 @@ object ItemRegistry {
 	fun register() {
 		LOGGER.info( "Registering items.." )
 		for ( ( key, value ) in ITEMS )
-			Registry.register( Registries.ITEM, key.toId(), value )
+			Registry.register( Registry.ITEM, key.toId(), value )
 	}
 
 	operator fun get( itemId: String ): Item =

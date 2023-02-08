@@ -15,7 +15,6 @@ import net.minecraft.command.CommandBuildContext
 import net.minecraft.command.CommandException
 import net.minecraft.command.argument.*
 import net.minecraft.entity.Entity
-import net.minecraft.registry.Registries
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.FunctionCommand
@@ -27,36 +26,32 @@ import net.minecraft.util.Identifier
 object ZoneCommand {
 	fun register( dispatcher: CommandDispatcher<ServerCommandSource?>, buildCtx: CommandBuildContext ) {
 		// inside command
-		dispatcher.register(
-			literal("inside")
-				.requires { source: ServerCommandSource -> source.hasPermissionLevel(1) }
-				.then(
-					argument( "entity", EntityArgumentType.entities() )
-						.then(
-							argument( "identifier", StringArgumentType.string() )
-								.suggests { ctx: CommandContext<ServerCommandSource>, builder: SuggestionsBuilder ->
-									for ( zone in ZONE_COMPONENT_KEY[ctx.source.world].getZones() ) {
-										builder.suggest( zone.id )
-									}
-									builder.buildFuture()
-								}
-								.executes { ctx: CommandContext<ServerCommandSource> ->
-									val entities = EntityArgumentType.getEntities( ctx, "entity" ).toList()
-									val id = ctx.getArgument( "identifier", String::class.java )
+		dispatcher.register( literal("inside")
+			.requires { source: ServerCommandSource -> source.hasPermissionLevel(1) }
+			.then( argument( "entity", EntityArgumentType.entities() )
+				.then( argument( "identifier", StringArgumentType.string() )
+					.suggests { ctx: CommandContext<ServerCommandSource>, builder: SuggestionsBuilder ->
+						for ( zone in ZONE_COMPONENT_KEY[ctx.source.world].getZones() ) {
+							builder.suggest( zone.id )
+						}
+						builder.buildFuture()
+					}
+					.executes { ctx: CommandContext<ServerCommandSource> ->
+						val entities = EntityArgumentType.getEntities( ctx, "entity" ).toList()
+						val id = ctx.getArgument( "identifier", String::class.java )
 
-									if ( ZONE_COMPONENT_KEY.get( ctx.source.world ).entityInZone( entities, id ) )
-										return@executes 4
-									else
-										return@executes 0
-								}
-						)
+						if ( ZONE_COMPONENT_KEY.get( ctx.source.world ).entityInZone( entities, id ) )
+							return@executes 4
+						else
+							return@executes 0
+					}
 				)
+			)
 		)
 		dispatcher.register(
-			literal("countent")
+			literal("count")
 				.requires { source: ServerCommandSource -> source.hasPermissionLevel(4) }
-				.then(
-					argument("identifier", StringArgumentType.string())
+				.then( argument("identifier", StringArgumentType.string())
 					.suggests { ctx: CommandContext<ServerCommandSource>, builder: SuggestionsBuilder ->
 						for ( zone in ZONE_COMPONENT_KEY.get( ctx.source.world ).getZones() )
 							builder.suggest(zone.id)
@@ -68,17 +63,16 @@ object ZoneCommand {
 							.getLastEntities()
 							.size
 					}
-					.then(
-						argument("except", RegistryEntryArgumentType.registryEntry( buildCtx, Registries.ENTITY_TYPE.key ) )
-							.executes { ctx: CommandContext<ServerCommandSource> ->
-								val ent = RegistryEntryArgumentType.getEntityType( ctx, "except" )
-								val id = ctx.getArgument( "identifier", String::class.java )
+					.then( argument("type", EntitySummonArgumentType.entitySummon() )
+						.executes { ctx: CommandContext<ServerCommandSource> ->
+							val ent = EntitySummonArgumentType.getEntitySummon( ctx, "type" )
+							val id = ctx.getArgument( "identifier", String::class.java )
 
-								ZONE_COMPONENT_KEY.get(ctx.source.world)
-									.getZone(id)!!
-									.getLastEntities()
-									.count { it.type.builtInRegistryHolder !== ent }
-							}
+							ZONE_COMPONENT_KEY.get(ctx.source.world)
+								.getZone(id)!!
+								.getLastEntities()
+								.count { it.type.builtInRegistryHolder !== ent }
+						}
 					)
 				)
 		)

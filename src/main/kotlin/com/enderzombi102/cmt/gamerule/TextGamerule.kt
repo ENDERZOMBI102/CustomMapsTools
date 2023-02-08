@@ -1,100 +1,83 @@
-package com.enderzombi102.cmt.gamerule;
+package com.enderzombi102.cmt.gamerule
 
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.context.CommandContext;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-import java.util.function.BiConsumer;
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.context.CommandContext
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.server.MinecraftServer
+import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.world.GameRules
+import net.minecraft.world.World
+import java.util.function.BiConsumer
 
-public class TextGamerule extends GameRules.Rule<TextGamerule> {
+class TextGamerule( rule: GameRules.Type<TextGamerule>, private var value: String ) : GameRules.Rule<TextGamerule>(rule) {
+	private val defValue: String
 
-	private String value;
-	private String defValue;
-
-	// ---- this code gets the content of a gamerule ----
-	// MinecraftServer server = client.getServer();
-	// GameRules.Rule<?> rule = server.getGameRules().get(key);
-	// logger.info( rule.toString() );
-
-	public static GameRules.Type<TextGamerule> create(String initialValue, BiConsumer<MinecraftServer, TextGamerule> changeCallback) {
-		return new GameRules.Type<>(
-				StringArgumentType::string,
-				(type) -> new TextGamerule( type, initialValue ),
-				changeCallback,
-				GameruleVisitor::visitString
-		);
+	init {
+		defValue = value
 	}
 
-	public static GameRules.Type<TextGamerule> create(String initialValue) {
-		return create( initialValue, (server, rule) -> {} );
+	fun get(): String {
+		return value
 	}
 
-	public TextGamerule(GameRules.Type<TextGamerule> rule, String initialValue) {
-		super( rule );
-		this.value = initialValue;
-		this.defValue = initialValue;
+	operator fun set(value: String, server: MinecraftServer?) {
+		this.value = value
+		changed(server)
 	}
 
-	public String get() {
-		return this.value;
+	override fun setFromArgument( ctx: CommandContext<ServerCommandSource>, name: String ) {
+		value = StringArgumentType.getString( ctx, name )
 	}
 
-	public void set(String value, @Nullable MinecraftServer server) {
-		this.value = value;
-		this.changed(server);
+	override fun deserialize( value: String ) {
+		this.value = value
 	}
 
-	@Override
-	protected void setFromArgument(CommandContext ctx, String name) {
-		this.value = StringArgumentType.getString(ctx, name);
+	override fun serialize(): String {
+		return value
 	}
 
-	@Override
-	protected void deserialize(String value) {
-		this.value = value;
+	override fun getCommandResult(): Int {
+		return 0
 	}
 
-	@Override
-	public String serialize() {
-		return this.value;
+	override fun getThis(): TextGamerule {
+		return this
 	}
 
-	@Override
-	public int getCommandResult() {
-		return 0;
+	override fun copy(): TextGamerule {
+		return TextGamerule(type, value)
 	}
 
-	@Override
-	protected TextGamerule getThis() {
-		return this;
-	}
-
-	@Override
-	protected TextGamerule copy() {
-		return new TextGamerule(this.type, this.value);
-	}
-
-	@Override
 	@Environment(EnvType.CLIENT)
-	public void setValue(TextGamerule rule, @Nullable MinecraftServer server) {
-		this.value = rule.value;
-		this.changed(server);
+	override fun setValue(rule: TextGamerule, server: MinecraftServer?) {
+		value = rule.value
+		changed(server)
 	}
 
-	public TextGamerule getObj() {
-		return this;
-	}
+	val obj: TextGamerule
+		get() = this
 
-	public static String getRuleContent(World world, GameRules.Key<TextGamerule> key) {
-		MinecraftServer server = world.getServer();
-		GameRules.Rule<?> rule = server.getGameRules().get(key);
-		return rule.toString();
-	}
+	companion object {
+		// ---- this code gets the content of a gamerule ----
+		// MinecraftServer server = client.getServer();
+		// GameRules.Rule<?> rule = server.getGameRules().get(key);
+		// logger.info( rule.toString() );
+		@JvmOverloads
+		fun create( initialValue: String, changeCallback: BiConsumer<MinecraftServer, TextGamerule> = BiConsumer { _, _ -> } ): GameRules.Type<TextGamerule> {
+			return GameRules.Type(
+				{ StringArgumentType.string() },
+				{ type -> TextGamerule( type, initialValue ) },
+				changeCallback,
+				GameRulesVisitor::visitString
+			)
+		}
 
+		fun getRuleContent( world: World, key: GameRules.Key<TextGamerule> ): String {
+			val server = world.server
+			val rule: GameRules.Rule<*> = server!!.gameRules.get(key)
+			return rule.toString()
+		}
+	}
 }
